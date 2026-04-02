@@ -458,10 +458,48 @@
     .lightbox-next { right: 12px; }
     .lightbox-prev:hover, .lightbox-next:hover { color: #fff; }
 
-    @media (max-width: 800px) {
-      .library-grid { grid-template-columns: repeat(2, 1fr); }
-      #library-modal { padding: 60px 20px 80px; }
+    /* ── HAMBURGER ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
     }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: rgba(255,255,255,0.65);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,10,0.97);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    .nav-mobile-menu.open { display: flex; }
+    .nav-mobile-menu a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .nav-mobile-menu a:hover { color: #fff; }
 
     /* ── CONTACT ── */
     #contact {
@@ -484,20 +522,78 @@
     }
     .contact-links a:hover { color: rgba(255,255,255,0.9); }
 
-    @media (max-width: 800px) {
-      nav { padding: 16px 20px; }
+    /* ── TABLET (≤900px) ── */
+    @media (max-width: 900px) {
+      .section-container { padding: 0 28px; }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+      .works-images { grid-template-columns: repeat(2, 1fr); }
+      .works-img-wrap:nth-child(3) { grid-column: span 2; max-width: 50%; margin: 0 auto; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .library-grid { grid-template-columns: repeat(3, 1fr); }
+      #library-modal { padding: 60px 24px 80px; }
+    }
+
+    /* ── MOBILE (≤600px) ── */
+    @media (max-width: 600px) {
+      /* Nav */
+      nav { padding: 18px 20px; }
       .nav-left { display: none; }
-      .nav-right { gap: 18px; }
+      .nav-right { display: none; }
+      .nav-hamburger { display: flex; }
+
+      /* Hero */
+      #hero { min-height: 100svh; }
+      .hero-photo img { width: 100%; object-position: center top; }
+      .hero-photo::after {
+        background: linear-gradient(
+          to top,
+          #0d0d0d 0%,
+          rgba(13,13,13,0.75) 40%,
+          rgba(13,13,13,0.2) 100%
+        );
+      }
+      .hero-content {
+        padding: 0 20px 44px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .hero-signature-wrap { width: 180px; }
+      .hero-signature-svg { width: 180px; }
+      .hero-bio { font-size: 13px; max-width: 100%; }
+      .hero-scroll { display: none; }
+
+      /* Sections */
       .section-container { padding: 0 20px; }
-      #projects, #works, #photography { padding: 60px 0 80px; }
-      #contact { padding: 80px 0 60px; }
-      .projects-grid { grid-template-columns: 1fr; gap: 44px; }
-      .works-images { grid-template-columns: 1fr; }
-      .works-img-wrap:nth-child(2) { margin-top: 0; }
-      .photo-grid { grid-template-columns: 1fr 1fr; }
-      .photo-cell { aspect-ratio: 1/1; }
-      .hero-content { padding: 0 20px 40px; }
-      .hero-signature { width: 180px; }
+      #projects, #works, #photography { padding: 56px 0 72px; }
+      #contact { padding: 72px 0 56px; }
+
+      /* Projects */
+      .projects-grid { grid-template-columns: 1fr; gap: 36px; }
+
+      /* Works */
+      .works-text { font-size: 13px; }
+      .works-quote { font-size: clamp(16px, 5vw, 22px); }
+      .works-images { grid-template-columns: 1fr; gap: 12px; }
+      .works-img-wrap:nth-child(3) { grid-column: span 1; max-width: 100%; }
+      .works-img-overlay p { font-size: 11px; line-height: 1.65; }
+
+      /* Photography */
+      .photo-header { gap: 14px; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+      .photo-divider-row { gap: 12px; }
+
+      /* Contact */
+      .contact-links { flex-direction: column; gap: 20px; }
+      .contact-links a { font-size: 14px; }
+
+      /* Library modal */
+      .library-grid { grid-template-columns: repeat(2, 1fr); }
+      #library-modal { padding: 60px 16px 80px; }
+
+      /* Lightbox arrows */
+      .lightbox-prev { left: 4px; padding: 0 10px; }
+      .lightbox-next { right: 4px; padding: 0 10px; }
     }
   </style>
 </head>
@@ -516,7 +612,19 @@
       <a href="#photography">Photography</a>
       <a href="#contact">Contact</a>
     </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="nav-mobile-menu" id="mobile-menu">
+    <a href="#hero"        onclick="closeMobileMenu()">About Me</a>
+    <a href="#projects"    onclick="closeMobileMenu()">Projects</a>
+    <a href="#works"       onclick="closeMobileMenu()">Works</a>
+    <a href="#photography" onclick="closeMobileMenu()">Photography</a>
+    <a href="#contact"     onclick="closeMobileMenu()">Contact</a>
+  </div>
 
   <!-- HERO -->
   <section id="hero">
@@ -765,6 +873,22 @@
     document.querySelectorAll('.library-grid img').forEach(img => {
       img.addEventListener('click', () => openLightbox(img.src));
     });
+
+    // ── Mobile menu ──
+    const hamburger   = document.getElementById('hamburger');
+    const mobileMenu  = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
     // ── Signature animation ──
     const sigSvg = document.querySelector('.hero-signature-svg');
