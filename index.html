@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firas Alfadda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Albert Sans', sans-serif;
+      background: #0d0d0d;
+      color: #e8e8e8;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 44px;
+    }
+    .nav-left {
+      color: rgba(255,255,255,0.5);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      line-height: 1.7;
+    }
+    .nav-left strong {
+      display: block;
+      font-weight: 500;
+      color: rgba(255,255,255,0.72);
+      font-size: 11px;
+    }
+    .nav-right {
+      display: flex;
+      gap: 30px;
+    }
+    .nav-right a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-right a:hover { color: rgba(255,255,255,0.95); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 620px;
+      background: #0d0d0d;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .hero-photo img {
+      height: 100%;
+      width: 65%;
+      object-fit: cover;
+      object-position: left center;
+      display: block;
+    }
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        #0d0d0d 0%,
+        #0d0d0d 26%,
+        rgba(13,13,13,0.72) 52%,
+        rgba(13,13,13,0.1) 100%
+      );
+    }
+    .hero-photo::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to top, #0d0d0d 0%, transparent 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 44px 64px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-width: 460px;
+    }
+    .hero-signature-wrap {
+      position: relative;
+      width: 240px;
+      display: inline-block;
+    }
+    .hero-signature-svg {
+      width: 240px;
+      height: auto;
+      display: block;
+      opacity: 0.85;
+    }
+    .hero-signature-svg path,
+    .hero-signature-svg circle {
+      stroke-dasharray: var(--path-len, 3000);
+      stroke-dashoffset: var(--path-len, 3000);
+    }
+    .hero-signature-svg.animate #sig-path-1 {
+      animation: drawPath 3s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+    }
+    .hero-signature-svg.animate #sig-path-2 {
+      animation: drawPath 0.5s cubic-bezier(0.4, 0, 0.2, 1) 3s forwards;
+    }
+    @keyframes drawPath {
+      to { stroke-dashoffset: 0; }
+    }
+    .hero-bio {
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 300px;
+    }
+    .hero-bio em { font-style: italic; }
+    .hero-scroll {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.3);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.18);
+      display: block;
+    }
+
+    /* ── SHARED SECTION ── */
+    .section-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 44px;
+    }
+    .section-heading {
+      font-size: clamp(44px, 7.5vw, 86px);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 0.95;
+      color: #fff;
+    }
+
+    /* ── PROJECTS ── */
+    #projects {
+      background: #0d0d0d;
+      padding: 88px 0 108px;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 52px;
+    }
+    .project-card { cursor: pointer; }
+    .project-card:hover .project-img { opacity: 0.88; }
+    .project-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      background: #0d0d0d;
+      transition: opacity 0.25s;
+    }
+    .project-info { padding-top: 16px; }
+    .project-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.005em;
+      color: #e8e8e8;
+    }
+    .project-meta {
+      font-size: 11px;
+      font-weight: 300;
+      color: #666;
+      margin-top: 5px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── WORKS ── */
+    #works {
+      background: #151515;
+      padding: 88px 0 108px;
+      border-top: 1px solid #1f1f1f;
+    }
+    .works-text {
+      font-size: 13.5px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.45);
+      max-width: 400px;
+      margin-top: 44px;
+    }
+    .works-quote {
+      font-size: clamp(18px, 2.6vw, 28px);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.88);
+      letter-spacing: -0.01em;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: 44px;
+      margin-top: 52px;
+      max-width: 780px;
+    }
+    .works-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 44px;
+      align-items: end;
+    }
+    .works-img-wrap {
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .works-img-wrap img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 1/1;
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .works-img-wrap:hover img {
+      filter: blur(6px);
+      transform: scale(1.06);
+    }
+    .works-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .works-img-wrap:hover .works-img-overlay { opacity: 1; }
+    .works-img-overlay p {
+      color: rgba(255,255,255,0.88);
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+      text-align: left;
+    }
+
+    /* ── PHOTOGRAPHY ── */
+    #photography {
+      background: #151515;
+      padding: 88px 0 108px;
+      border-top: 1px solid #1f1f1f;
+    }
+    .photo-header {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .photo-subtext {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+    }
+    .photo-divider-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: 4px;
+    }
+    .photo-divider-line {
+      flex: 1;
+      height: 1px;
+      background: #2a2a2a;
+    }
+    .photo-tagline {
+      font-size: 12px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 44px;
+    }
+    .photo-cell { overflow: hidden; cursor: pointer; aspect-ratio: 1/1; }
+    .photo-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .photo-cell:hover img { transform: scale(1.04); }
+
+    /* Explore More cell */
+    .photo-cell-explore {
+      aspect-ratio: 1/1;
+      background: #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .photo-cell-explore:hover { background: #252525; }
+    .photo-cell-explore span {
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .photo-cell-explore:hover span { color: rgba(255,255,255,0.85); }
+
+    /* ── LIBRARY MODAL ── */
+    #library-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.92);
+      overflow-y: auto;
+      padding: 60px 40px 80px;
+    }
+    #library-modal.open { display: block; }
+    .library-close {
+      position: fixed;
+      top: 24px;
+      right: 36px;
+      color: rgba(255,255,255,0.5);
+      font-size: 28px;
+      font-weight: 200;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+      z-index: 1000;
+      background: none;
+      border: none;
+    }
+    .library-close:hover { color: #fff; }
+    .library-heading {
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 40px;
+    }
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .library-grid img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      display: block;
+      cursor: zoom-in;
+      transition: opacity 0.2s;
+    }
+    .library-grid img:hover { opacity: 0.8; }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      background: rgba(0,0,0,0.96);
+      align-items: center;
+      justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+      border: none;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 24px;
+      right: 36px;
+      color: rgba(255,255,255,0.5);
+      font-size: 28px;
+      font-weight: 200;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+    }
+    .lightbox-close:hover { color: #fff; }
+    .lightbox-prev, .lightbox-next {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 36px;
+      font-weight: 100;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0 20px;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .lightbox-prev { left: 12px; }
+    .lightbox-next { right: 12px; }
+    .lightbox-prev:hover, .lightbox-next:hover { color: #fff; }
+
+    @media (max-width: 800px) {
+      .library-grid { grid-template-columns: repeat(2, 1fr); }
+      #library-modal { padding: 60px 20px 80px; }
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: #0d0d0d;
+      padding: 108px 0 88px;
+    }
+    #contact .section-heading { color: #fff; } /* already white globally */
+    .contact-links {
+      display: flex;
+      gap: 36px;
+      margin-top: 44px;
+    }
+    .contact-links a {
+      color: rgba(255,255,255,0.38);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .contact-links a:hover { color: rgba(255,255,255,0.9); }
+
+    @media (max-width: 800px) {
+      nav { padding: 16px 20px; }
+      .nav-left { display: none; }
+      .nav-right { gap: 18px; }
+      .section-container { padding: 0 20px; }
+      #projects, #works, #photography { padding: 60px 0 80px; }
+      #contact { padding: 80px 0 60px; }
+      .projects-grid { grid-template-columns: 1fr; gap: 44px; }
+      .works-images { grid-template-columns: 1fr; }
+      .works-img-wrap:nth-child(2) { margin-top: 0; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-cell { aspect-ratio: 1/1; }
+      .hero-content { padding: 0 20px 40px; }
+      .hero-signature { width: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <strong>Firas Alfadda</strong>
+      Architecture &amp; Design
+    </div>
+    <div class="nav-right">
+      <a href="#hero">About Me</a>
+      <a href="#projects">Projects</a>
+      <a href="#works">Works</a>
+      <a href="#photography">Photography</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-photo">
+      <img src="images/30 Year Old Man in Office.png" alt="Firas Alfadda">
+    </div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-signature-wrap">
+          <svg class="hero-signature-svg" width="269" height="157" viewBox="0 0 269 157" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="sig-path-1" d="M172.005 133.551L170.368 138.189C170.02 139.176 168.727 139.029 168.698 137.983C168.3 123.969 172.628 91.3045 192.005 52.5507C213.605 9.35068 220.339 0.217346 221.005 1.05068C201.672 46.884 161.805 137.251 157.005 132.051C151.005 125.551 155.505 95.0507 162.505 78.5507C168.105 65.3507 142.505 124.384 129.005 155.051M121.505 130.051C128.839 105.217 146.505 50.7507 158.505 31.5507C173.505 7.55066 121.005 124.551 116.505 124.051C112.905 123.651 119.005 88.0507 117.505 94.0507C116.005 95.5507 105.205 130.851 102.005 132.051C98.8053 133.251 107.505 84.5507 105.005 94.5507C104.761 95.5273 89.9053 138.451 83.5053 136.051C77.1053 133.651 93.5053 94.5507 92.0053 97.0507C86.5334 106.17 70.3053 125.251 51.5053 130.051C32.7053 134.851 0.00534056 141.051 1.00532 141.051L267.505 70.5507" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path id="sig-path-2" d="M265.505 62.5507C265.505 63.6552 264.61 64.5507 263.505 64.5507C262.401 64.5507 261.156 63.5985 261.505 62.5507C262.005 61.0507 262.901 59.5507 264.005 59.5507C265.11 59.5507 265.505 61.4461 265.505 62.5507Z" stroke="white" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <p class="hero-bio">
+          Hi, I'm an architecture &amp; design student<br>
+          based in Riyadh — <em>driven by a deep curiosity<br>
+          for space, form, and human experience.</em>
+        </p>
+      </div>
+      <div class="hero-scroll">
+        <span class="hero-scroll-line"></span>
+        scroll
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-container">
+      <h2 class="section-heading">PROJECTS</h2>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <img class="project-img" src="images/Untitled_Artwork.png" alt="Cultural Center">
+          <div class="project-info">
+            <div class="project-title">Cultural Center, KFUPM</div>
+            <div class="project-meta">Architecture Studio · 2024</div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <img class="project-img" src="images/Untitled_Artwork 2.png" alt="Coastal Residence">
+          <div class="project-info">
+            <div class="project-title">Coastal Residence</div>
+            <div class="project-meta">Architecture Studio · 2023</div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <img class="project-img" src="images/Untitled_Artwork 6.png" alt="Graduation Project">
+          <div class="project-info">
+            <div class="project-title">Graduation Project</div>
+            <div class="project-meta">Architecture Studio · 2025</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="works">
+    <div class="section-container">
+      <h2 class="section-heading">WORKS</h2>
+      <p class="works-text">
+        These aren't strictly architecture.<br><br>
+        This is the work that sits in between — creative experiments that
+        cross every single discipline. Each piece came out of a way of
+        thinking through something, understanding something, or becoming
+        a part of myself I hadn't met yet.
+      </p>
+
+      <p class="works-quote">
+        I believe the best designers are shaped by more than their field.
+      </p>
+
+      <div class="works-images">
+        <div class="works-img-wrap">
+          <img src="images/IMG_9707 1 2.png" alt="Sculpture">
+          <div class="works-img-overlay">
+            <p>Seedivity is an art installation merging neuroscience and design to visualize the creative process. It taught me that innovation isn't accidental, but a structured journey from chaos to tangible results.</p>
+          </div>
+        </div>
+        <div class="works-img-wrap">
+          <img src="images/IMG_7067 1.png" alt="Structures">
+          <div class="works-img-overlay">
+            <p>The cardboard tube project was a practical lesson in forming sculptures. My biggest challenge was balancing the different sizes and lengths, ensuring a smooth and weighted visual flow throughout the piece. It taught me how to control visual elements to achieve balance.</p>
+          </div>
+        </div>
+        <div class="works-img-wrap">
+          <img src="images/IMG_3798 1.png" alt="Landscape">
+          <div class="works-img-overlay">
+            <p>This landscape painting was a pivotal moment, marking a deep dive into meditation. It transformed my perspective, teaching me to see nature with a sense of wonder and contemplation I hadn't realised was possible, revealing the importance of looking with a truly different eye.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PHOTOGRAPHY -->
+  <section id="photography">
+    <div class="section-container">
+      <div class="photo-header">
+        <h2 class="section-heading">PHOTOGRAPHY</h2>
+        <p class="photo-subtext">Architecture taught me that every space has a story.</p>
+        <div class="photo-divider-row">
+          <div class="photo-divider-line"></div>
+          <span class="photo-tagline">Photography is how I tell it.</span>
+        </div>
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo-cell">
+          <img src="Photography/APC_4468.JPG" alt="Architecture">
+        </div>
+        <div class="photo-cell">
+          <img src="Photography/APC_3745.jpg" alt="Architecture">
+        </div>
+        <div class="photo-cell">
+          <img src="Photography/APC_3893-hdr.JPG" alt="Architecture">
+        </div>
+        <div class="photo-cell">
+          <img src="Photography/APC_4363.jpg" alt="Architecture">
+        </div>
+        <div class="photo-cell">
+          <img src="Photography/IMG_1526.JPG" alt="Architecture">
+        </div>
+        <div class="photo-cell-explore" onclick="openLibrary()">
+          <span>Explore More</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">&#215;</button>
+    <button class="lightbox-prev" onclick="lightboxNav(-1)">&#8249;</button>
+    <img id="lightbox-img" src="" alt="">
+    <button class="lightbox-next" onclick="lightboxNav(1)">&#8250;</button>
+  </div>
+
+  <!-- LIBRARY MODAL -->
+  <div id="library-modal">
+    <button class="library-close" onclick="closeLibrary()">&#215;</button>
+    <div style="max-width:1100px;margin:0 auto;">
+      <p class="library-heading">Full Photography Library</p>
+      <div class="library-grid">
+        <img src="Photography/APC_3461.JPG" alt="Architecture">
+        <img src="Photography/APC_3745.jpg" alt="Architecture">
+        <img src="Photography/APC_3893-hdr.JPG" alt="Architecture">
+        <img src="Photography/APC_4363.jpg" alt="Architecture">
+        <img src="Photography/APC_4462.JPG" alt="Architecture">
+        <img src="Photography/APC_4468.JPG" alt="Architecture">
+        <img src="Photography/IMG_1211_jpg.JPG" alt="Architecture">
+        <img src="Photography/IMG_1245.JPG" alt="Architecture">
+        <img src="Photography/IMG_1526.JPG" alt="Architecture">
+        <img src="Photography/IMG_1755.JPG" alt="Architecture">
+        <img src="Photography/IMG_2273 2.JPG" alt="Architecture">
+        <img src="Photography/IMG_2297 2.JPG" alt="Architecture">
+        <img src="Photography/IMG_2311 3.JPG" alt="Architecture">
+        <img src="Photography/IMG_3206.JPG" alt="Architecture">
+        <img src="Photography/IMG_3215.JPG" alt="Architecture">
+        <img src="Photography/IMG_3798 1 2.png" alt="Architecture">
+        <img src="Photography/IMG_5388.JPG" alt="Architecture">
+        <img src="Photography/IMG_5510_jpg.JPG" alt="Architecture">
+        <img src="Photography/IMG_5802.JPG" alt="Architecture">
+        <img src="Photography/IMG_5803.JPG" alt="Architecture">
+        <img src="Photography/IMG_6177.JPG" alt="Architecture">
+        <img src="Photography/IMG_6895.JPG" alt="Architecture">
+        <img src="Photography/IMG_7067 1 2.png" alt="Architecture">
+        <img src="Photography/IMG_7067 1 3.png" alt="Architecture">
+        <img src="Photography/IMG_7487.jpg" alt="Architecture">
+        <img src="Photography/IMG_8270.jpg" alt="Architecture">
+        <img src="Photography/IMG_8271.JPG" alt="Architecture">
+        <img src="Photography/IMG_8276.JPG" alt="Architecture">
+        <img src="Photography/IMG_9355.JPG" alt="Architecture">
+        <img src="Photography/IMG_9707 1 3.png" alt="Architecture">
+        <img src="Photography/IMG_9707 1.png" alt="Architecture">
+        <img src="Photography/IMG_7067 1.png" alt="Architecture">
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-container">
+      <h2 class="section-heading">CONTACT</h2>
+      <div class="contact-links">
+        <a href="https://www.instagram.com/alffiras/" target="_blank">Instagram</a>
+        <a href="https://www.linkedin.com/in/firas-al-fadda-754207321?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank">LinkedIn</a>
+        <a href="mailto:firasalfadda2@icloud.com">Email</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ── Library modal ──
+    function openLibrary() {
+      document.getElementById('library-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLibrary() {
+      document.getElementById('library-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('library-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeLibrary();
+    });
+
+    // ── Lightbox ──
+    let lightboxImages = [];
+    let lightboxIndex = 0;
+
+    function openLightbox(src) {
+      const imgs = Array.from(document.querySelectorAll('.library-grid img'));
+      lightboxImages = imgs.map(i => i.src);
+      lightboxIndex = lightboxImages.indexOf(src);
+      document.getElementById('lightbox-img').src = lightboxImages[lightboxIndex];
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    function lightboxNav(dir) {
+      lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+      document.getElementById('lightbox-img').src = lightboxImages[lightboxIndex];
+    }
+
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeLightbox(); closeLibrary(); }
+      if (e.key === 'ArrowRight') lightboxNav(1);
+      if (e.key === 'ArrowLeft') lightboxNav(-1);
+    });
+
+    // Wire up library images after DOM ready
+    document.querySelectorAll('.library-grid img').forEach(img => {
+      img.addEventListener('click', () => openLightbox(img.src));
+    });
+
+    // ── Signature animation ──
+    const sigSvg = document.querySelector('.hero-signature-svg');
+    const sigPaths = sigSvg.querySelectorAll('path');
+
+    // Set real path lengths as CSS vars
+    sigPaths.forEach(path => {
+      const len = path.getTotalLength();
+      path.style.setProperty('--path-len', len);
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+    });
+
+    function playSignature() {
+      sigSvg.classList.remove('animate');
+      // Reset dashoffset
+      sigPaths.forEach(path => {
+        const len = path.getTotalLength();
+        path.style.strokeDashoffset = len;
+      });
+      void sigSvg.offsetWidth; // force reflow
+      sigSvg.classList.add('animate');
+    }
+
+    // Play on load
+    playSignature();
+
+    // Replay when hero comes back into view
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) playSignature();
+      });
+    }, { threshold: 0.4 });
+
+    heroObserver.observe(document.getElementById('hero'));
+  </script>
+</body>
+</html>
