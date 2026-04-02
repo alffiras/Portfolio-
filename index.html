@@ -258,6 +258,7 @@
       aspect-ratio: 1/1;
       transition: filter 0.4s ease, transform 0.4s ease;
     }
+    /* Desktop: hover triggers blur + overlay */
     .works-img-wrap:hover img {
       filter: blur(6px);
       transform: scale(1.06);
@@ -281,6 +282,18 @@
       line-height: 1.75;
       letter-spacing: 0.01em;
       text-align: left;
+    }
+
+    /* Mobile: tap toggles .tapped class instead of hover */
+    @media (hover: none) {
+      .works-img-wrap:hover img { filter: none; transform: none; }
+      .works-img-wrap:hover .works-img-overlay { opacity: 0; }
+
+      .works-img-wrap.tapped img {
+        filter: blur(6px);
+        transform: scale(1.06);
+      }
+      .works-img-wrap.tapped .works-img-overlay { opacity: 1; }
     }
 
     /* ── PHOTOGRAPHY ── */
@@ -873,6 +886,18 @@
     document.querySelectorAll('.library-grid img').forEach(img => {
       img.addEventListener('click', () => openLightbox(img.src));
     });
+
+    // ── Works: tap-to-reveal on touch devices ──
+    if (window.matchMedia('(hover: none)').matches) {
+      document.querySelectorAll('.works-img-wrap').forEach(wrap => {
+        wrap.addEventListener('click', () => {
+          const isOpen = wrap.classList.contains('tapped');
+          // Close all others first
+          document.querySelectorAll('.works-img-wrap.tapped').forEach(w => w.classList.remove('tapped'));
+          if (!isOpen) wrap.classList.add('tapped');
+        });
+      });
+    }
 
     // ── Mobile menu ──
     const hamburger   = document.getElementById('hamburger');
