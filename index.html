@@ -638,14 +638,25 @@
     }
     html[lang="ar"] .nav-right { flex-direction: row-reverse; }
     html[lang="ar"] .nav-left { text-align: right; }
-    html[lang="ar"] .hero-content { flex-direction: row-reverse; }
-    html[lang="ar"] .hero-left { align-items: flex-end; }
+    /* RTL hero: let natural RTL row flow put hero-left on the right */
+    html[lang="ar"] .hero-content { flex-direction: row; }
+    html[lang="ar"] .hero-left { align-items: flex-start; }
     html[lang="ar"] .hero-bio { text-align: right; }
+    /* Photo: flip object-position and reverse the gradient */
+    html[lang="ar"] .hero-photo img { object-position: right center; }
+    html[lang="ar"] .hero-photo::after {
+      background: linear-gradient(
+        to left,
+        #0d0d0d 0%,
+        #0d0d0d 26%,
+        rgba(13,13,13,0.72) 52%,
+        rgba(13,13,13,0.1) 100%
+      );
+    }
     html[lang="ar"] .works-text { text-align: right; }
     html[lang="ar"] .works-quote { text-align: right; }
     html[lang="ar"] .works-img-overlay p { text-align: right; }
-    html[lang="ar"] .photo-subtext { text-align: left; }
-    html[lang="ar"] .photo-divider-row { flex-direction: row-reverse; }
+    html[lang="ar"] .photo-subtext { text-align: right; }
     html[lang="ar"] .contact-links { flex-direction: row-reverse; }
     html[lang="ar"] .project-info { text-align: right; }
     html[lang="ar"] .section-heading { letter-spacing: 0; }
@@ -658,6 +669,7 @@
 
     @media (max-width: 600px) {
       html[lang="ar"] .hero-content { flex-direction: column; align-items: flex-end; }
+      html[lang="ar"] .hero-photo img { object-position: center top; }
       html[lang="ar"] .contact-links { flex-direction: column; }
     }
   </style>
@@ -889,7 +901,7 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="section-container">
-      <h2 class="section-heading" data-en="CONTACT" data-ar="تواصل.">CONTACT</h2>
+      <h2 class="section-heading" data-en="CONTACT" data-ar="تواصل">CONTACT</h2>
       <div class="contact-links">
         <a href="https://www.instagram.com/alffiras/" target="_blank">Instagram</a>
         <a href="https://www.linkedin.com/in/firas-al-fadda-754207321?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank">LinkedIn</a>
