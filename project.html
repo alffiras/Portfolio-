@@ -374,6 +374,7 @@
       display: block;
       cursor: zoom-in;
       transition: opacity 0.25s;
+      will-change: transform;
     }
     .gallery-grid img:hover { opacity: 0.85; }
     /* Single image: full width */
@@ -397,11 +398,12 @@
       transition: opacity 0.28s ease, visibility 0.28s ease;
     }
     #lightbox.open { opacity: 1; visibility: visible; pointer-events: all; }
-    #lightbox img {
+    #lightbox-img {
       max-width: 90vw;
       max-height: 90vh;
       object-fit: contain;
       display: block;
+      transition: opacity 0.2s ease;
     }
     .lightbox-close {
       position: fixed;
@@ -700,11 +702,11 @@
   <!-- LIGHTBOX -->
   <div id="lightbox">
     <button class="lightbox-close" onclick="closeLightbox()">&#215;</button>
-    <button class="lightbox-prev" onclick="lightboxNav(-1)" aria-label="Previous">
+    <button class="lightbox-prev" onclick="lbNav(-1)" aria-label="Previous">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <img id="lightbox-img" src="" alt="">
-    <button class="lightbox-next" onclick="lightboxNav(1)" aria-label="Next">
+    <button class="lightbox-next" onclick="lbNav(1)" aria-label="Next">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <div class="lightbox-counter" id="lightbox-counter"></div>
@@ -731,9 +733,9 @@
     let currentLang = localStorage.getItem('lang') || 'en';
     let projectData = null;
     let galleryImages = [];
-    let lightboxImages = [];
-    let lightboxIndex = 0;
-    let lightboxNavLocked = false;
+    let lbImages = [];
+    let lbIndex = 0;
+    let lbBusy = false;
 
     // Apply persisted language to static elements immediately (prevents flash)
     document.documentElement.lang = currentLang;
@@ -832,7 +834,7 @@
         .map(img => sanitizeImagePath(img))
         .filter(Boolean)
         .map(img => basePath + img);
-      lightboxImages = [...galleryImages];
+      lbImages = [...galleryImages];
 
       // Helper: create a lazy img node wired to lightbox
       function makeGalleryImg(src, lightboxIdx, altText) {
@@ -993,36 +995,62 @@
 
     // ── Lightbox ──
     function openLightbox(index) {
-      lightboxIndex = index;
-      document.getElementById('lightbox-img').src = lightboxImages[lightboxIndex];
-      document.getElementById('lightbox').classList.add('open');
-      updateLightboxCounter();
+      lbIndex = index;
+      lbBusy = false;
+      const lb = document.getElementById('lightbox');
+      lb.classList.add('open');
+      showLbImage(false);
     }
 
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('open');
+      lbBusy = false;
     }
 
-    function updateLightboxCounter() {
-      document.getElementById('lightbox-counter').textContent =
-        (lightboxIndex + 1) + ' / ' + lightboxImages.length;
-    }
-
-    function lightboxNav(dir) {
-      if (lightboxNavLocked) return;
-      lightboxNavLocked = true;
+    function showLbImage(animate) {
       const img = document.getElementById('lightbox-img');
-      img.style.opacity = '0';
-      img.style.transition = 'opacity 0.18s ease';
-      lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
-      img.src = lightboxImages[lightboxIndex];
-      const show = () => {
-        img.style.opacity = '1';
-        setTimeout(() => { lightboxNavLocked = false; }, 150);
-      };
-      img.addEventListener('load', show, { once: true });
-      setTimeout(() => { if (img.style.opacity === '0') show(); }, 400);
-      updateLightboxCounter();
+      const src = lbImages[lbIndex];
+      if (!src) return;
+      if (animate) {
+        img.style.opacity = '0';
+        const pre = new Image();
+        pre.onload = () => {
+          img.src = src;
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            img.style.opacity = '1';
+            updateLbCounter();
+            lbBusy = false;
+            preloadLb();
+          }));
+        };
+        pre.onerror = () => { img.src = src; img.style.opacity = '1'; updateLbCounter(); lbBusy = false; };
+        pre.src = src;
+      } else {
+        img.src = src;
+        img.style.opacity = '0';
+        const show = () => { img.style.opacity = '1'; updateLbCounter(); preloadLb(); };
+        if (img.complete && img.naturalWidth > 0) requestAnimationFrame(show);
+        else { img.onload = show; img.onerror = show; }
+      }
+    }
+
+    function lbNav(dir) {
+      if (lbBusy || lbImages.length === 0) return;
+      lbBusy = true;
+      lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+      showLbImage(true);
+    }
+
+    function updateLbCounter() {
+      document.getElementById('lightbox-counter').textContent =
+        (lbIndex + 1) + ' / ' + lbImages.length;
+    }
+
+    function preloadLb() {
+      [-1, 1].forEach(d => {
+        const idx = (lbIndex + d + lbImages.length) % lbImages.length;
+        if (lbImages[idx]) { const p = new Image(); p.src = lbImages[idx]; }
+      });
     }
 
     document.getElementById('lightbox').addEventListener('click', function(e) {
@@ -1031,8 +1059,8 @@
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') lightboxNav(1);
-      if (e.key === 'ArrowLeft')  lightboxNav(-1);
+      if (e.key === 'ArrowRight') lbNav(1);
+      if (e.key === 'ArrowLeft')  lbNav(-1);
     });
 
     // Touch swipe for lightbox
@@ -1046,7 +1074,7 @@
       const diffX = touchStartX - e.changedTouches[0].clientX;
       const diffY = touchStartY - e.changedTouches[0].clientY;
       if (Math.abs(diffX) > 48 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
-        lightboxNav(diffX > 0 ? 1 : -1);
+        lbNav(diffX > 0 ? 1 : -1);
       }
     }, { passive: true });
 
