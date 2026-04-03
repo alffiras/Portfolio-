@@ -277,7 +277,7 @@
       margin-top: 44px;
     }
     .works-quote {
-      font-size: clamp(18px, 2.6vw, 28px);
+      font-size: clamp(16px, 1.85vw, 21px);
       font-style: italic;
       font-weight: 300;
       line-height: 1.45;
@@ -925,6 +925,14 @@
       <div class="projects-grid">
 
         <div class="project-card">
+          <img loading="lazy" class="project-img" src="projects/Rehal Mosque.png" alt="Rehal Mosque">
+          <div class="project-info">
+            <div class="project-title" data-en="Rehal Mosque" data-ar="مسجد رِحال">Rehal Mosque</div>
+            <div class="project-meta"  data-en="Architecture Studio · 2026" data-ar="استوديو العمارة · 2026">Architecture Studio · 2026</div>
+          </div>
+        </div>
+
+        <div class="project-card">
           <img loading="lazy" class="project-img" src="projects/Lamina Cafe.png" alt="Lamina Cafe">
           <div class="project-info">
             <div class="project-title" data-en="Lamina Cafe" data-ar="مقهى لامينا">Lamina Cafe</div>
@@ -937,14 +945,6 @@
           <div class="project-info">
             <div class="project-title" data-en="Alyamamah House" data-ar="بيت اليمامة">Alyamamah House</div>
             <div class="project-meta"  data-en="Architecture Studio · 2025" data-ar="استوديو العمارة · 2025">Architecture Studio · 2025</div>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <img loading="lazy" class="project-img" src="projects/Rehal Mosque.png" alt="Rehal Mosque">
-          <div class="project-info">
-            <div class="project-title" data-en="Rehal Mosque" data-ar="مسجد رحال">Rehal Mosque</div>
-            <div class="project-meta"  data-en="Architecture Studio · 2026" data-ar="استوديو العمارة · 2026">Architecture Studio · 2026</div>
           </div>
         </div>
 
@@ -1107,7 +1107,7 @@
 
   <footer>
     <div class="footer-inner">
-      <span class="footer-copy" data-en="© 2026 Firas Alfadda" data-ar="© 2026 فراس الفضة">© 2026 Firas Alfadda</span>
+      <span class="footer-copy" data-en="© 2026 Firas Alfadda" data-ar="© 2026 فراس الفداء">© 2026 Firas Alfadda</span>
       <a class="footer-top" href="#hero" data-en="↑ Back to top" data-ar="↑ العودة للأعلى">↑ Back to top</a>
     </div>
   </footer>
@@ -1148,15 +1148,21 @@
       document.getElementById('lightbox').classList.remove('open');
     }
 
+    let lightboxNavLocked = false;
     function lightboxNav(dir) {
+      if (lightboxNavLocked) return;
+      lightboxNavLocked = true;
       const img = document.getElementById('lightbox-img');
       img.style.opacity = '0';
       img.style.transition = 'opacity 0.18s ease';
       lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
       img.src = lightboxImages[lightboxIndex];
-      const show = () => { img.style.opacity = '1'; };
+      const show = () => {
+        img.style.opacity = '1';
+        setTimeout(() => { lightboxNavLocked = false; }, 150);
+      };
       img.addEventListener('load', show, { once: true });
-      setTimeout(show, 350); // fallback for cached images
+      setTimeout(() => { if (img.style.opacity === '0') show(); }, 400);
       updateLightboxCounter();
     }
 
@@ -1270,11 +1276,19 @@
 
     // ── Lightbox touch swipe ──
     let touchStartX = 0;
+    let touchStartY = 0;
     const lb = document.getElementById('lightbox');
-    lb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
     lb.addEventListener('touchend', e => {
-      const diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 48) lightboxNav(diff > 0 ? 1 : -1);
+      const diffX = touchStartX - e.changedTouches[0].clientX;
+      const diffY = touchStartY - e.changedTouches[0].clientY;
+      // Only trigger on clear horizontal swipe, not vertical scroll
+      if (Math.abs(diffX) > 48 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
+        lightboxNav(diffX > 0 ? 1 : -1);
+      }
     }, { passive: true });
 
     // ── Nav scroll backdrop ──
