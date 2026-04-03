@@ -1,28 +1,28 @@
 {
   "slug": "rehal-mosque",
   "year": "2026",
-  "cover": "images/cover.JPG",
+  "cover": "images/cover.webp",
   "images": [
-    "images/hero-exterior.jpeg",
-    "images/interior-prayer.jpeg",
-    "images/exterior-walkway.jpeg",
-    "images/3d-model-1.png",
-    "images/3d-model-2.png"
+    "images/hero-exterior.webp",
+    "images/interior-prayer.webp",
+    "images/exterior-walkway.webp",
+    "images/3d-model-1.webp",
+    "images/3d-model-2.webp"
   ],
   "gallerySections": [
     {
       "images": [
-        "images/hero-exterior.jpeg",
-        "images/interior-prayer.jpeg",
-        "images/exterior-walkway.jpeg"
+        "images/hero-exterior.webp",
+        "images/interior-prayer.webp",
+        "images/exterior-walkway.webp"
       ]
     },
     {
       "labelEn": "3D Model",
       "labelAr": "النموذج ثلاثي الأبعاد",
       "images": [
-        "images/3d-model-1.png",
-        "images/3d-model-2.png"
+        "images/3d-model-1.webp",
+        "images/3d-model-2.webp"
       ]
     }
   ],
