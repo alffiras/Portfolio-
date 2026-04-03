@@ -719,12 +719,12 @@
 
   <script>
     // ── Project registry — update this list when adding projects ──
-    // Each entry: { slug, nextSlug }
-    // nextSlug = which project to show in "Next Project" — set to null for last project
+    // comingSoon: true  = no content yet; hidden from prev/next navigation
+    // comingSoon: false = live; flip to false when content is ready
     const PROJECT_ORDER = [
-      { slug: 'rehal-mosque',    nextSlug: 'lamina-cafe'       },
-      { slug: 'lamina-cafe',     nextSlug: 'alyamamah-house'   },
-      { slug: 'alyamamah-house', nextSlug: null                },
+      { slug: 'rehal-mosque',    comingSoon: false },
+      { slug: 'lamina-cafe',     comingSoon: true  },
+      { slug: 'alyamamah-house', comingSoon: true  },
     ];
 
     // ── State ──
@@ -922,10 +922,16 @@
         modulesWrap.style.display = 'none';
       }
 
-      // Prev / Next project navigation
+      // Prev / Next project navigation — skip coming-soon entries
       const entryIdx = PROJECT_ORDER.findIndex(p => p.slug === data.slug);
-      const prevSlug = entryIdx > 0 ? PROJECT_ORDER[entryIdx - 1].slug : null;
-      const nextSlug = entryIdx >= 0 ? PROJECT_ORDER[entryIdx].nextSlug : null;
+      let nextSlug = null;
+      for (let i = entryIdx + 1; i < PROJECT_ORDER.length; i++) {
+        if (!PROJECT_ORDER[i].comingSoon) { nextSlug = PROJECT_ORDER[i].slug; break; }
+      }
+      let prevSlug = null;
+      for (let i = entryIdx - 1; i >= 0; i--) {
+        if (!PROJECT_ORDER[i].comingSoon) { prevSlug = PROJECT_ORDER[i].slug; break; }
+      }
 
       // Reset both panels (handles re-render on lang toggle)
       document.getElementById('project-nav-prev').style.display = 'none';

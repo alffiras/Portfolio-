@@ -238,21 +238,44 @@
       display: block;
       text-decoration: none;
       color: inherit;
+      position: relative;
       transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .project-card:hover { transform: translateY(-6px); }
     .project-card:hover .project-img { opacity: 0.88; }
 
-    /* Coming Soon state — remove this class when project content is ready */
-    .project-card.coming-soon {
-      pointer-events: none;
-      cursor: default;
-    }
-    .project-card.coming-soon .project-img {
-      opacity: 0.3;
-      filter: grayscale(60%);
-    }
+    /* Coming Soon state — remove 'coming-soon' class when project content is ready */
+    .project-card.coming-soon { cursor: default; }
+    .project-card.coming-soon .project-img { opacity: 0.3; filter: grayscale(60%); }
     .project-card.coming-soon:hover { transform: none; }
+
+    /* Overlay — fades in on hover (desktop) or tap (mobile) */
+    .project-cs-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      aspect-ratio: 4/3;
+      background: rgba(13,13,13,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .project-cs-overlay span {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+    html[lang="ar"] .project-cs-overlay span { letter-spacing: 0; }
+    .project-card.coming-soon:hover .project-cs-overlay { opacity: 1; }
+    @media (hover: none) {
+      .project-card.coming-soon:hover .project-cs-overlay { opacity: 0; }
+      .project-card.coming-soon.tapped .project-cs-overlay { opacity: 1; }
+    }
+
     .project-coming-soon {
       display: inline-block;
       margin-top: 10px;
@@ -958,6 +981,9 @@
 
         <a class="project-card coming-soon">
           <img loading="lazy" class="project-img" src="projects/Lamina Cafe hero.png" alt="Lamina Cafe">
+          <div class="project-cs-overlay">
+            <span data-en="Coming Soon" data-ar="قريباً">Coming Soon</span>
+          </div>
           <div class="project-info">
             <div class="project-title" data-en="Lamina Cafe" data-ar="مقهى لامينا">Lamina Cafe</div>
             <div class="project-meta"  data-en="Architecture Studio · 2025" data-ar="استوديو العمارة · 2025">Architecture Studio · 2025</div>
@@ -967,6 +993,9 @@
 
         <a class="project-card coming-soon">
           <img loading="lazy" class="project-img" src="projects/Alyamamah House hero.png" alt="Alyamamah House">
+          <div class="project-cs-overlay">
+            <span data-en="Coming Soon" data-ar="قريباً">Coming Soon</span>
+          </div>
           <div class="project-info">
             <div class="project-title" data-en="Alyamamah House" data-ar="بيت اليمامة">Alyamamah House</div>
             <div class="project-meta"  data-en="Architecture Studio · 2025" data-ar="استوديو العمارة · 2025">Architecture Studio · 2025</div>
@@ -1239,6 +1268,17 @@
         } else {
           el.textContent = content;
         }
+      });
+    }
+
+    // ── Coming Soon: tap-to-reveal overlay on touch devices ──
+    if (window.matchMedia('(hover: none)').matches) {
+      document.querySelectorAll('.project-card.coming-soon').forEach(card => {
+        card.addEventListener('click', () => {
+          const isOpen = card.classList.contains('tapped');
+          document.querySelectorAll('.project-card.coming-soon.tapped').forEach(c => c.classList.remove('tapped'));
+          if (!isOpen) card.classList.add('tapped');
+        });
       });
     }
 
