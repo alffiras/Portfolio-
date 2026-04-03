@@ -292,6 +292,21 @@
       letter-spacing: 0.01em;
       text-align: left;
     }
+    .works-overlay-link {
+      display: inline-block;
+      margin-top: 14px;
+      color: rgba(255,255,255,0.95);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.4);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .works-overlay-link:hover { color: #fff; border-color: rgba(255,255,255,0.9); }
+    html[lang="ar"] .works-overlay-link { letter-spacing: 0; }
 
     /* Mobile: tap toggles .tapped class instead of hover */
     @media (hover: none) {
@@ -799,9 +814,13 @@
       <div class="works-images">
         <div class="works-img-wrap">
           <img loading="lazy" src="images/IMG_9707 1 2.png" alt="Sculpture">
-          <div class="works-img-overlay">
+          <div class="works-img-overlay" style="flex-direction:column;align-items:flex-start;">
             <p data-en="Seedivity is an art installation merging neuroscience and design to visualize the creative process. It taught me that innovation isn't accidental, but a structured journey from chaos to tangible results."
                data-ar="&quot;سيديفيتي&quot; هو عمل فني تركيبي يدمج علم الأعصاب بالتصميم لتصوير العملية الإبداعية. علّمني أن الابتكار ليس صدفة، بل رحلة منظّمة من الفوضى إلى نتائج ملموسة.">Seedivity is an art installation merging neuroscience and design to visualize the creative process. It taught me that innovation isn't accidental, but a structured journey from chaos to tangible results.</p>
+            <a class="works-overlay-link"
+               href="https://drive.google.com/file/d/11ng3cabrKpxgCS1blktn8R72PDos2LFH/view"
+               target="_blank" rel="noopener"
+               data-en="View Project →" data-ar="عرض المشروع →">View Project →</a>
           </div>
         </div>
         <div class="works-img-wrap">
