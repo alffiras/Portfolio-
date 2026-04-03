@@ -1,0 +1,17 @@
+{
+  "slug": "lamina-cafe",
+  "year": "2025",
+  "images": [
+    "images/cover.png"
+  ],
+  "en": {
+    "title": "Lamina Cafe",
+    "category": "Architecture Studio",
+    "description": "Lamina Cafe is a study in layering — both structurally and experientially. The design takes its name from the Latin for thin sheet or layer, and builds an interior environment where planes of light, material, and movement overlap to define space without fully enclosing it. The result is a cafe that feels open yet intimate, public yet private."
+  },
+  "ar": {
+    "title": "مقهى لامينا",
+    "category": "استوديو العمارة",
+    "description": "مقهى لامينا دراسة في التطبيق والتراكب، بنيويًّا وتجريبيًّا. يستمدّ التصميم اسمه من الكلمة اللاتينية التي تعني الطبقة الرقيقة، ويبني بيئة داخلية تتشابك فيها طبقات الضوء والمادة والحركة لتحديد الفضاء دون إغلاقه كليًّا. النتيجة مقهى يشعر بالانفتاح مع الخصوصية، العام مع الحميميّة."
+  }
+}

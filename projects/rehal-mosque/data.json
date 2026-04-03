@@ -1,0 +1,95 @@
+{
+  "slug": "rehal-mosque",
+  "year": "2026",
+  "cover": "images/cover.JPG",
+  "images": [
+    "images/hero-exterior.jpeg",
+    "images/interior-prayer.jpeg",
+    "images/exterior-walkway.jpeg",
+    "images/3d-model-1.png",
+    "images/3d-model-2.png"
+  ],
+  "gallerySections": [
+    {
+      "images": [
+        "images/hero-exterior.jpeg",
+        "images/interior-prayer.jpeg",
+        "images/exterior-walkway.jpeg"
+      ]
+    },
+    {
+      "labelEn": "3D Model",
+      "labelAr": "النموذج ثلاثي الأبعاد",
+      "images": [
+        "images/3d-model-1.png",
+        "images/3d-model-2.png"
+      ]
+    }
+  ],
+  "en": {
+    "title": "Rehal Mosque",
+    "category": "Architecture Studio",
+    "course": "ARCH 211",
+    "location": "Ushayqir, Al-Washm",
+    "region": "Najd",
+    "area": "1600m²",
+    "description": "Historically, this city has been a welcoming haven for pilgrims and travelers. Inspired by this rich heritage, the mosque is envisioned as more than just a sanctuary — it is a 'shaded tent' and a communal gathering space. The design fosters a harmonious architectural dialogue, merging the robust local urban fabric with the fluid, lightweight essence of traditional tents. It stands as a contemporary landmark, reflecting a timeless narrative of embrace and hospitality.",
+    "moduleSectionTitle": "Dynamics of the Triangular Module",
+    "moduleSectionDesc": "Exploring the versatile application of a repetitive geometric language. The analysis illustrates how a single module creates architectural integration, connecting exterior and interior realms through functional efficiency and visual cohesion.",
+    "modules": [
+      {
+        "number": "01",
+        "title": "Private Contemplation",
+        "description": "Positioned along the interior walls, this partially enclosed module features built-in seating, offering a quiet, intimate space for Quran recitation and educational circles."
+      },
+      {
+        "number": "02",
+        "title": "Transitional Space",
+        "description": "Repeated outdoors as shaded walkways, this hollow module provides natural ventilation and visually guides worshippers toward the entrances, creating a fluid exterior-interior transition."
+      },
+      {
+        "number": "03",
+        "title": "Built-in Furniture",
+        "description": "Integrated into the Qibla wall, the module's interior serves as built-in shelving for Quran copies, maximizing functionality without disrupting the clean architectural lines."
+      },
+      {
+        "number": "04",
+        "title": "Central Mihrab",
+        "description": "Serving as the spiritual focal point, it retains the standard proportions but features increased depth. Traditional Saudi geometric patterns reinforce local heritage and spatial sanctity."
+      }
+    ]
+  },
+  "ar": {
+    "title": "مسجد رِحال",
+    "category": "استوديو العمارة",
+    "course": "عمر ٢١١",
+    "location": "أشيقر، الوشم",
+    "region": "نجد",
+    "area": "١٦٠٠م²",
+    "description": "تاريخياً، كانت هذه المدينة ملاذاً مرحّباً بالحجاج والمسافرين. مستلهماً من هذا الإرث العريق، صُمّم المسجد ليكون أكثر من مجرد مكان للعبادة — إنه 'خيمة مظلّلة' وفضاء للتجمّع. يسعى التصميم لخلق حوار معماري متناغم يدمج بين متانة النسيج العمراني المحلي وخفّة الخيام التقليدية وانسيابيتها. يقف كمعلم معاصر يروي حكاية خالدة من الاحتضان والضيافة.",
+    "moduleSectionTitle": "ديناميكيات الوحدة المثلثية",
+    "moduleSectionDesc": "استكشاف التطبيقات المتعددة للغة هندسية متكررة. يوضّح التحليل كيف تحقّق وحدة واحدة تكاملاً معمارياً، رابطةً بين الخارج والداخل من خلال الكفاءة الوظيفية والتماسك البصري.",
+    "modules": [
+      {
+        "number": "٠١",
+        "title": "التأمّل الخاص",
+        "description": "تقع على امتداد الجدران الداخلية، وتتميز بمقاعد مدمجة توفّر فضاءً هادئاً وحميمياً لتلاوة القرآن وحلقات العلم."
+      },
+      {
+        "number": "٠٢",
+        "title": "الفضاء الانتقالي",
+        "description": "تتكرر في الخارج كممرات مظلّلة، توفّر تهوية طبيعية وتوجّه المصلّين بصرياً نحو المداخل، مشكّلةً انتقالاً سلساً بين الخارج والداخل."
+      },
+      {
+        "number": "٠٣",
+        "title": "الأثاث المدمج",
+        "description": "مدمجة في جدار القبلة، يعمل باطن الوحدة كرفوف مدمجة للمصاحف، مما يعزّز الوظيفة دون الإخلال بنقاء الخطوط المعمارية."
+      },
+      {
+        "number": "٠٤",
+        "title": "المحراب المركزي",
+        "description": "يمثّل البؤرة الروحية للمسجد، يحافظ على النسب المعيارية مع عمق أكبر. تعزّز الأنماط الهندسية السعودية التقليدية الهوية المحلية وقدسية الفراغ."
+      }
+    ]
+  }
+}

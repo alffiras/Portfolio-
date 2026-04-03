@@ -235,10 +235,34 @@
     }
     .project-card {
       cursor: pointer;
+      display: block;
+      text-decoration: none;
+      color: inherit;
       transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .project-card:hover { transform: translateY(-6px); }
     .project-card:hover .project-img { opacity: 0.88; }
+
+    /* Coming Soon state — remove this class when project content is ready */
+    .project-card.coming-soon {
+      pointer-events: none;
+      cursor: default;
+    }
+    .project-card.coming-soon .project-img {
+      opacity: 0.3;
+      filter: grayscale(60%);
+    }
+    .project-card.coming-soon:hover { transform: none; }
+    .project-coming-soon {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
+    html[lang="ar"] .project-coming-soon { letter-spacing: 0; }
     .project-img {
       width: 100%;
       aspect-ratio: 4/3;
@@ -924,29 +948,31 @@
       <h2 class="section-heading" data-en="PROJECTS" data-ar="المشاريع">PROJECTS</h2>
       <div class="projects-grid">
 
-        <div class="project-card">
-          <img loading="lazy" class="project-img" src="projects/Rehal Mosque.png" alt="Rehal Mosque">
+        <a class="project-card" href="project.html?project=rehal-mosque">
+          <img loading="lazy" class="project-img" src="projects/Rehal Mosque hero.png" alt="Rehal Mosque">
           <div class="project-info">
             <div class="project-title" data-en="Rehal Mosque" data-ar="مسجد رِحال">Rehal Mosque</div>
             <div class="project-meta"  data-en="Architecture Studio · 2026" data-ar="استوديو العمارة · 2026">Architecture Studio · 2026</div>
           </div>
-        </div>
+        </a>
 
-        <div class="project-card">
-          <img loading="lazy" class="project-img" src="projects/Lamina Cafe.png" alt="Lamina Cafe">
+        <a class="project-card coming-soon">
+          <img loading="lazy" class="project-img" src="projects/Lamina Cafe hero.png" alt="Lamina Cafe">
           <div class="project-info">
             <div class="project-title" data-en="Lamina Cafe" data-ar="مقهى لامينا">Lamina Cafe</div>
             <div class="project-meta"  data-en="Architecture Studio · 2025" data-ar="استوديو العمارة · 2025">Architecture Studio · 2025</div>
+            <span class="project-coming-soon" data-en="Coming Soon" data-ar="قريباً">Coming Soon</span>
           </div>
-        </div>
+        </a>
 
-        <div class="project-card">
-          <img loading="lazy" class="project-img" src="projects/Alyamamah House.png" alt="Alyamamah House">
+        <a class="project-card coming-soon">
+          <img loading="lazy" class="project-img" src="projects/Alyamamah House hero.png" alt="Alyamamah House">
           <div class="project-info">
             <div class="project-title" data-en="Alyamamah House" data-ar="بيت اليمامة">Alyamamah House</div>
             <div class="project-meta"  data-en="Architecture Studio · 2025" data-ar="استوديو العمارة · 2025">Architecture Studio · 2025</div>
+            <span class="project-coming-soon" data-en="Coming Soon" data-ar="قريباً">Coming Soon</span>
           </div>
-        </div>
+        </a>
 
       </div>
     </div>
@@ -1182,10 +1208,22 @@
     });
 
     // ── Language toggle ──
-    let currentLang = 'en';
+    let currentLang = localStorage.getItem('lang') || 'en';
+
+    // Apply persisted language on load
+    if (currentLang === 'ar') {
+      document.documentElement.lang = 'ar';
+      document.getElementById('lang-toggle').textContent = 'EN';
+      document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+        const content = el.getAttribute('data-ar');
+        if (content.includes('<')) el.innerHTML = content;
+        else el.textContent = content;
+      });
+    }
 
     function toggleLang() {
       currentLang = currentLang === 'en' ? 'ar' : 'en';
+      localStorage.setItem('lang', currentLang);
       const html = document.documentElement;
       const btn  = document.getElementById('lang-toggle');
 

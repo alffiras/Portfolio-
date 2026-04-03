@@ -1,0 +1,17 @@
+{
+  "slug": "alyamamah-house",
+  "year": "2025",
+  "images": [
+    "images/cover.png"
+  ],
+  "en": {
+    "title": "Alyamamah House",
+    "category": "Architecture Studio",
+    "description": "The Alyamamah House revisits the traditional Najdi courtyard typology — not as nostalgia but as a living framework for contemporary domestic life. The project strips the form back to its essentials: enclosure, threshold, sky. Within that, it asks how a house can be both deeply private and deeply connected to the outdoor environment of central Arabia."
+  },
+  "ar": {
+    "title": "بيت اليمامة",
+    "category": "استوديو العمارة",
+    "description": "يعيد بيت اليمامة النظر في نموذج الفناء النجدي التقليدي، لا بوصفه حنينًا، بل إطارًا حيًّا للحياة المنزلية المعاصرة. يُجرّد المشروع الشكل إلى جوهره: الإحاطة، والعتبة، والسماء. ضمن ذلك، يطرح سؤالًا: كيف يمكن لبيت أن يكون في آنٍ واحد عميق الخصوصية وعميق الاتصال بالبيئة الخارجية في وسط الجزيرة العربية؟"
+  }
+}

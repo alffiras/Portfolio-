@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  HOW TO ADD A NEW PROJECT                                    ║
+  ║                                                              ║
+  ║  1. Create a new folder: projects/your-project-slug/         ║
+  ║  2. Inside it, create an images/ subfolder                   ║
+  ║  3. Add your images (first image = cover shown on index)     ║
+  ║  4. Copy data.json from another project folder and edit it:  ║
+  ║     - "slug": must match the folder name exactly             ║
+  ║     - "year": project year                                   ║
+  ║     - "images": array of relative paths from the project     ║
+  ║       folder, e.g. "images/cover.png", "images/01.jpg"       ║
+  ║     - "en" and "ar": title, category, description            ║
+  ║  5. In index.html, add a new .project-card inside            ║
+  ║     .projects-grid pointing to project.html?project=slug     ║
+  ║                                                              ║
+  ║  That's it. The template handles everything else.            ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project — Firas Alfadda</title>
+  <meta name="description" content="Project by Firas Alfadda — Architecture & Design">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230d0d0d'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='13' fill='white' letter-spacing='-0.5'>FA</text></svg>">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6NVC28MDP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-S6NVC28MDP');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Albert Sans', sans-serif;
+      background: #0d0d0d;
+      color: #e8e8e8;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 44px;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+      background: rgba(13,13,13,0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-left {
+      color: rgba(255,255,255,0.5);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      line-height: 1.7;
+      text-decoration: none;
+    }
+    .nav-left strong {
+      display: block;
+      font-weight: 600;
+      color: rgba(255,255,255,0.88);
+      font-size: 13px;
+      letter-spacing: 0.01em;
+    }
+    .nav-right {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+    .nav-back {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-back:hover { color: rgba(255,255,255,0.9); }
+    .nav-back svg { flex-shrink: 0; }
+
+    /* ── LANGUAGE TOGGLE ── */
+    .lang-toggle {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      color: rgba(255,255,255,0.55);
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .lang-toggle:hover {
+      border-color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* ── HAMBURGER ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: rgba(255,255,255,0.65);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-mobile-menu {
+      display: flex;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,10,0.97);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    }
+    .nav-mobile-menu.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+      transform: none;
+    }
+    .nav-mobile-menu a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .nav-mobile-menu a:hover { color: #fff; }
+
+    /* ── PROJECT HERO ── */
+    .project-hero {
+      position: relative;
+      height: 70vh;
+      min-height: 420px;
+      overflow: hidden;
+      background: #111;
+    }
+    .project-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: opacity 1s ease;
+    }
+    .project-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 260px;
+      background: linear-gradient(to top, #0d0d0d 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .project-hero-meta {
+      position: absolute;
+      bottom: 44px;
+      left: 60px;
+      right: 60px;
+      z-index: 2;
+    }
+    .project-hero-title {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #fff;
+    }
+    .project-hero-sub {
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── PROJECT BODY ── */
+    .project-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 72px 44px 108px;
+    }
+
+    /* Metadata row: Course · Location · Region · Area */
+    .project-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 44px;
+      border-top: 1px solid #1f1f1f;
+      border-bottom: 1px solid #1f1f1f;
+      padding: 20px 0;
+    }
+    .project-meta-item {
+      flex: 1;
+      min-width: 120px;
+      padding-right: 24px;
+    }
+    .project-meta-item:not(:last-child) {
+      border-right: 1px solid #1f1f1f;
+      margin-right: 24px;
+    }
+    .project-meta-label {
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-bottom: 6px;
+    }
+    .project-meta-value {
+      font-size: 12.5px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.01em;
+    }
+
+    .project-description {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.62);
+      max-width: 660px;
+    }
+
+    /* Module section */
+    .project-modules {
+      margin-top: 80px;
+    }
+    .modules-section-title {
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .modules-section-desc {
+      font-size: 13.5px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.45);
+      max-width: 580px;
+      margin-bottom: 40px;
+    }
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #1f1f1f;
+      border: 1px solid #1f1f1f;
+    }
+    .module-item {
+      background: #0d0d0d;
+      padding: 28px 28px 32px;
+    }
+    .module-number {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: rgba(255,255,255,0.1);
+      margin-bottom: 10px;
+    }
+    .module-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 10px;
+      letter-spacing: 0.01em;
+    }
+    .module-desc {
+      font-size: 12.5px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.42);
+    }
+
+    html[lang="ar"] .project-meta-row { direction: rtl; }
+    html[lang="ar"] .project-meta-item { padding-right: 0; padding-left: 24px; }
+    html[lang="ar"] .project-meta-item:not(:last-child) { border-right: none; margin-right: 0; border-left: 1px solid #1f1f1f; margin-left: 24px; }
+    html[lang="ar"] .project-meta-label { letter-spacing: 0; }
+    html[lang="ar"] .modules-section-title { letter-spacing: 0; }
+    html[lang="ar"] .module-number { letter-spacing: -0.01em; }
+
+    /* ── GALLERY ── */
+    .project-gallery {
+      margin-top: 64px;
+    }
+    .gallery-label {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 24px;
+    }
+    /* Section divider within gallery */
+    .gallery-section { margin-top: 12px; }
+    .gallery-section:first-child { margin-top: 0; }
+    .gallery-section-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+      margin-top: 32px;
+    }
+    .gallery-section-label {
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      white-space: nowrap;
+    }
+    .gallery-section-line {
+      flex: 1;
+      height: 1px;
+      background: #1f1f1f;
+    }
+    html[lang="ar"] .gallery-section-label { letter-spacing: 0; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      cursor: zoom-in;
+      transition: opacity 0.25s;
+    }
+    .gallery-grid img:hover { opacity: 0.85; }
+    /* Single image: full width */
+    .gallery-grid.single img {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: flex;
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      background: rgba(0,0,0,0.96);
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.28s ease, visibility 0.28s ease;
+    }
+    #lightbox.open { opacity: 1; visibility: visible; pointer-events: all; }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 24px; right: 36px;
+      color: rgba(255,255,255,0.5);
+      font-size: 28px;
+      font-weight: 200;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+    }
+    .lightbox-close:hover { color: #fff; }
+    .lightbox-prev, .lightbox-next {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+    }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    .lightbox-prev:hover, .lightbox-next:hover {
+      background: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.25);
+      color: #fff;
+    }
+    .lightbox-counter {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.35);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      pointer-events: none;
+    }
+
+    /* ── PROJECT NAV (prev / next) ── */
+    .project-nav {
+      border-top: 1px solid #1a1a1a;
+      padding: 48px 44px;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .project-nav-prev,
+    .project-nav-next { flex: 1; }
+    .project-nav-next { text-align: right; }
+    .nav-proj-label {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-bottom: 16px;
+    }
+    .nav-proj-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+    .nav-proj-link:hover { color: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0d0d0d;
+      border-top: 1px solid #1a1a1a;
+      padding: 28px 44px;
+    }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.22);
+      letter-spacing: 0.04em;
+    }
+    .footer-home {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.22);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-home:hover { color: rgba(255,255,255,0.55); }
+
+    /* ── RTL / ARABIC ── */
+    html[lang="ar"] { direction: rtl; }
+    html[lang="ar"] body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+    html[lang="ar"] .nav-right { flex-direction: row-reverse; }
+    html[lang="ar"] .project-hero-meta { left: 60px; right: 60px; }
+    html[lang="ar"] .project-hero-title { letter-spacing: 0; }
+    html[lang="ar"] .gallery-label { letter-spacing: 0; }
+    html[lang="ar"] .nav-proj-label { letter-spacing: 0; }
+    html[lang="ar"] .project-nav-next { text-align: left; }
+    html[lang="ar"] .footer-inner { flex-direction: row-reverse; }
+    html[lang="ar"] .footer-copy { letter-spacing: 0; }
+    html[lang="ar"] .nav-back { flex-direction: row-reverse; letter-spacing: 0; }
+
+    /* ── LOADING STATE ── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #0d0d0d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      transition: opacity 0.4s ease;
+    }
+    #loading.hidden { opacity: 0; pointer-events: none; }
+    .loading-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      animation: loadPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes loadPulse {
+      0%, 100% { transform: scale(0.6); opacity: 0.3; }
+      50%       { transform: scale(1);   opacity: 0.8; }
+    }
+
+    /* ── NOT FOUND ── */
+    #not-found {
+      display: none;
+      min-height: 80vh;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+      padding: 80px 40px;
+    }
+    #not-found h1 { font-size: 48px; font-weight: 800; color: rgba(255,255,255,0.12); }
+    #not-found p { font-size: 13px; color: rgba(255,255,255,0.35); }
+    #not-found a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 12px; letter-spacing: 0.06em; transition: color 0.2s; }
+    #not-found a:hover { color: #fff; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      nav { padding: 18px 20px; }
+      .nav-left { display: none; }
+      .nav-back-desktop { display: none; }
+      .nav-hamburger { display: flex; }
+      .project-hero { height: 55vh; }
+      .project-hero-meta { left: 20px; right: 20px; bottom: 32px; }
+      .project-body { padding: 48px 20px 80px; }
+      .project-meta-row { flex-direction: column; gap: 16px; }
+      .project-meta-item { min-width: unset; padding-right: 0; border-right: none !important; margin-right: 0 !important; margin-left: 0 !important; border-left: none !important; }
+      .modules-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-grid img { aspect-ratio: 4/3; }
+      .gallery-grid.single img { grid-column: span 1; aspect-ratio: 4/3; }
+      .project-nav { padding: 40px 20px; flex-direction: column; gap: 32px; }
+      .project-nav-next { text-align: left; }
+      footer { padding: 22px 20px; }
+      .lightbox-prev { left: 10px; }
+      .lightbox-next { right: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading overlay -->
+  <div id="loading"><div class="loading-dot"></div></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-left">
+      <strong>Firas Alfadda</strong>
+      <span data-en="Architecture &amp; Design" data-ar="عمارة و تصميم">Architecture &amp; Design</span>
+    </a>
+    <div class="nav-right">
+      <a href="index.html#projects" class="nav-back nav-back-desktop">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-en="All Projects" data-ar="كل المشاريع">All Projects</span>
+      </a>
+      <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">AR</button>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="nav-mobile-menu" id="mobile-menu">
+    <a href="index.html" onclick="closeMobileMenu()" data-en="Home" data-ar="الرئيسية">Home</a>
+    <a href="index.html#projects" onclick="closeMobileMenu()" data-en="All Projects" data-ar="كل المشاريع">All Projects</a>
+    <a href="index.html#contact" onclick="closeMobileMenu()" data-en="Contact" data-ar="تواصل">Contact</a>
+  </div>
+
+  <!-- MAIN CONTENT — filled by JS -->
+  <div id="project-content" style="display:none;">
+
+    <!-- Hero -->
+    <div class="project-hero">
+      <img class="project-hero-img" id="hero-img" src="" alt="">
+      <div class="project-hero-meta">
+        <h1 class="project-hero-title" id="hero-title"></h1>
+        <p class="project-hero-sub" id="hero-sub"></p>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="project-body">
+
+      <!-- Metadata row (filled by JS if fields exist) -->
+      <div class="project-meta-row" id="project-meta-row" style="display:none;">
+        <div class="project-meta-item" id="meta-course" style="display:none;">
+          <div class="project-meta-label" data-en="Course" data-ar="المقرر">Course</div>
+          <div class="project-meta-value" id="meta-course-val"></div>
+        </div>
+        <div class="project-meta-item" id="meta-location" style="display:none;">
+          <div class="project-meta-label" data-en="Location" data-ar="الموقع">Location</div>
+          <div class="project-meta-value" id="meta-location-val"></div>
+        </div>
+        <div class="project-meta-item" id="meta-region" style="display:none;">
+          <div class="project-meta-label" data-en="Region" data-ar="المنطقة">Region</div>
+          <div class="project-meta-value" id="meta-region-val"></div>
+        </div>
+        <div class="project-meta-item" id="meta-area" style="display:none;">
+          <div class="project-meta-label" data-en="Area" data-ar="المساحة">Area</div>
+          <div class="project-meta-value" id="meta-area-val"></div>
+        </div>
+      </div>
+
+      <p class="project-description" id="project-desc"></p>
+
+      <div class="project-gallery" id="project-gallery">
+        <p class="gallery-label" data-en="Gallery" data-ar="معرض الأعمال">Gallery</p>
+        <!-- Gallery content (flat grid OR sections) injected by JS -->
+        <div id="gallery-content"></div>
+      </div>
+
+      <!-- Module section (filled by JS if modules exist) -->
+      <div class="project-modules" id="project-modules" style="display:none;">
+        <h2 class="modules-section-title" id="modules-section-title"></h2>
+        <p class="modules-section-desc" id="modules-section-desc"></p>
+        <div class="modules-grid" id="modules-grid"></div>
+      </div>
+
+    </div>
+
+    <!-- Prev / Next project navigation -->
+    <div class="project-nav" id="project-nav">
+      <div class="project-nav-prev" id="project-nav-prev" style="display:none;">
+        <p class="nav-proj-label" data-en="Previous Project" data-ar="المشروع السابق">Previous Project</p>
+        <a class="nav-proj-link" id="prev-link" href="#">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="prev-title"></span>
+        </a>
+      </div>
+      <div class="project-nav-next" id="project-nav-next" style="display:none;">
+        <p class="nav-proj-label" data-en="Next Project" data-ar="المشروع التالي">Next Project</p>
+        <a class="nav-proj-link" id="next-link" href="#">
+          <span id="next-title"></span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Not found -->
+  <div id="not-found">
+    <h1>404</h1>
+    <p data-en="Project not found." data-ar="المشروع غير موجود.">Project not found.</p>
+    <a href="index.html" data-en="← Back to portfolio" data-ar="← العودة إلى المحفظة">← Back to portfolio</a>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">&#215;</button>
+    <button class="lightbox-prev" onclick="lightboxNav(-1)" aria-label="Previous">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <img id="lightbox-img" src="" alt="">
+    <button class="lightbox-next" onclick="lightboxNav(1)" aria-label="Next">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="lightbox-counter" id="lightbox-counter"></div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy" data-en="© 2026 Firas Alfadda" data-ar="© 2026 فراس الفداء">© 2026 Firas Alfadda</span>
+      <a class="footer-home" href="index.html" data-en="← Portfolio" data-ar="← المحفظة">← Portfolio</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Project registry — update this list when adding projects ──
+    // Each entry: { slug, nextSlug }
+    // nextSlug = which project to show in "Next Project" — set to null for last project
+    const PROJECT_ORDER = [
+      { slug: 'rehal-mosque',    nextSlug: 'lamina-cafe'       },
+      { slug: 'lamina-cafe',     nextSlug: 'alyamamah-house'   },
+      { slug: 'alyamamah-house', nextSlug: null                },
+    ];
+
+    // ── State ──
+    let currentLang = localStorage.getItem('lang') || 'en';
+    let projectData = null;
+    let galleryImages = [];
+    let lightboxImages = [];
+    let lightboxIndex = 0;
+    let lightboxNavLocked = false;
+
+    // Apply persisted language to static elements immediately (prevents flash)
+    document.documentElement.lang = currentLang;
+    document.getElementById('lang-toggle').textContent = currentLang === 'en' ? 'AR' : 'EN';
+    applyLang(currentLang);
+
+    // ── Boot ──
+    const params = new URLSearchParams(window.location.search);
+    const slug   = params.get('project');
+
+    if (!slug) {
+      showNotFound();
+    } else {
+      fetch('projects/' + slug + '/data.json')
+        .then(r => { if (!r.ok) throw new Error('not found'); return r.json(); })
+        .then(data => {
+          projectData = data;
+          renderProject(data, currentLang);
+          hideLoading();
+        })
+        .catch(() => {
+          hideLoading();
+          showNotFound();
+        });
+    }
+
+    function hideLoading() {
+      const el = document.getElementById('loading');
+      el.classList.add('hidden');
+      setTimeout(() => el.remove(), 500);
+    }
+
+    function showNotFound() {
+      document.getElementById('not-found').style.display = 'flex';
+    }
+
+    function renderProject(data, lang) {
+      const t = data[lang];
+      const basePath = 'projects/' + data.slug + '/';
+
+      // Page title
+      document.title = t.title + ' — Firas Alfadda';
+
+      // Rule: every image on a project page must come from that project's own
+      // images/ subfolder (projects/[slug]/images/). Paths that escape via
+      // absolute URLs, leading slashes, or ../ traversal are rejected silently.
+      function sanitizeImagePath(rawPath) {
+        const p = (rawPath || '').trim().replace(/\\/g, '/');
+        if (!p || /^https?:\/\//i.test(p) || p.startsWith('/')) return null;
+        // Collapse any ../ sequences and re-check the prefix
+        const parts = [];
+        p.split('/').forEach(seg => {
+          if (seg === '..') parts.pop();
+          else if (seg && seg !== '.') parts.push(seg);
+        });
+        const normalized = parts.join('/');
+        return normalized.startsWith('images/') ? normalized : null;
+      }
+
+      // Hero
+      const heroImg = document.getElementById('hero-img');
+      heroImg.style.opacity = '0';
+      // Use dedicated cover field if present, otherwise fall back to first image
+      const heroPath = sanitizeImagePath(data.cover || data.images[0]);
+      heroImg.src = heroPath ? basePath + heroPath : '';
+      heroImg.alt = t.title;
+      const showHero = () => { heroImg.style.opacity = '1'; };
+      if (heroImg.complete && heroImg.naturalWidth > 0) setTimeout(showHero, 50);
+      else heroImg.addEventListener('load', showHero, { once: true });
+
+      document.getElementById('hero-title').textContent = t.title;
+      document.getElementById('hero-sub').textContent =
+        t.category + ' · ' + data.year;
+
+      // Metadata row (optional fields)
+      const metaFields = ['course', 'location', 'region', 'area'];
+      let hasAnyMeta = false;
+      metaFields.forEach(field => {
+        const wrap = document.getElementById('meta-' + field);
+        const val  = document.getElementById('meta-' + field + '-val');
+        if (t[field]) {
+          val.textContent = t[field];
+          wrap.style.display = 'block';
+          hasAnyMeta = true;
+        } else {
+          wrap.style.display = 'none';
+        }
+      });
+      document.getElementById('project-meta-row').style.display = hasAnyMeta ? 'flex' : 'none';
+
+      // Description
+      document.getElementById('project-desc').textContent = t.description;
+
+      // Gallery — build lightbox image list (only images/ paths allowed)
+      galleryImages = data.images
+        .map(img => sanitizeImagePath(img))
+        .filter(Boolean)
+        .map(img => basePath + img);
+      lightboxImages = [...galleryImages];
+
+      // Helper: create a lazy img node wired to lightbox
+      function makeGalleryImg(src, lightboxIdx, altText) {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = altText;
+        img.loading = 'lazy';
+        img.style.opacity = '0';
+        img.style.cursor = 'zoom-in';
+        const show = () => { img.style.opacity = '1'; };
+        if (img.complete && img.naturalWidth > 0) show();
+        else { img.addEventListener('load', show); img.addEventListener('error', show); }
+        img.addEventListener('click', () => openLightbox(lightboxIdx));
+        return img;
+      }
+
+      const galleryContent = document.getElementById('gallery-content');
+      galleryContent.innerHTML = '';
+
+      if (data.gallerySections) {
+        // Sectioned gallery: render each section with optional label divider
+        data.gallerySections.forEach(section => {
+          const sectionDiv = document.createElement('div');
+          sectionDiv.className = 'gallery-section';
+
+          // Label divider (only if section has a label)
+          if (section.labelEn) {
+            const divider = document.createElement('div');
+            divider.className = 'gallery-section-divider';
+            const line  = document.createElement('div');
+            line.className = 'gallery-section-line';
+            const label = document.createElement('span');
+            label.className = 'gallery-section-label';
+            label.textContent = lang === 'ar' ? (section.labelAr || section.labelEn) : section.labelEn;
+            const line2 = document.createElement('div');
+            line2.className = 'gallery-section-line';
+            divider.appendChild(line);
+            divider.appendChild(label);
+            divider.appendChild(line2);
+            sectionDiv.appendChild(divider);
+          }
+
+          const grid = document.createElement('div');
+          grid.className = 'gallery-grid';
+          if (section.images.length === 1) grid.classList.add('single');
+
+          section.images.forEach(imgPath => {
+            const safe = sanitizeImagePath(imgPath);
+            if (!safe) return;
+            const fullSrc = basePath + safe;
+            const lbIdx   = galleryImages.indexOf(fullSrc);
+            grid.appendChild(makeGalleryImg(fullSrc, lbIdx, t.title));
+          });
+
+          sectionDiv.appendChild(grid);
+          galleryContent.appendChild(sectionDiv);
+        });
+      } else {
+        // Flat gallery (default for projects without gallerySections)
+        const grid = document.createElement('div');
+        grid.className = 'gallery-grid';
+        if (galleryImages.length === 1) grid.classList.add('single');
+        galleryImages.forEach((src, i) => {
+          grid.appendChild(makeGalleryImg(src, i, t.title + ' ' + (i + 1)));
+        });
+        galleryContent.appendChild(grid);
+      }
+
+      // Modules section (optional)
+      const modulesWrap = document.getElementById('project-modules');
+      if (t.modules && t.modules.length > 0) {
+        document.getElementById('modules-section-title').textContent = t.moduleSectionTitle || '';
+        document.getElementById('modules-section-desc').textContent  = t.moduleSectionDesc  || '';
+        const modulesGrid = document.getElementById('modules-grid');
+        modulesGrid.innerHTML = '';
+        t.modules.forEach(m => {
+          const div = document.createElement('div');
+          div.className = 'module-item';
+          div.innerHTML =
+            '<div class="module-number">' + m.number + '</div>' +
+            '<div class="module-title">'  + m.title  + '</div>' +
+            '<div class="module-desc">'   + m.description + '</div>';
+          modulesGrid.appendChild(div);
+        });
+        modulesWrap.style.display = 'block';
+      } else {
+        modulesWrap.style.display = 'none';
+      }
+
+      // Prev / Next project navigation
+      const entryIdx = PROJECT_ORDER.findIndex(p => p.slug === data.slug);
+      const prevSlug = entryIdx > 0 ? PROJECT_ORDER[entryIdx - 1].slug : null;
+      const nextSlug = entryIdx >= 0 ? PROJECT_ORDER[entryIdx].nextSlug : null;
+
+      // Reset both panels (handles re-render on lang toggle)
+      document.getElementById('project-nav-prev').style.display = 'none';
+      document.getElementById('project-nav-next').style.display = 'none';
+
+      if (prevSlug) {
+        fetch('projects/' + prevSlug + '/data.json')
+          .then(r => r.json())
+          .then(prevData => {
+            document.getElementById('prev-title').textContent = prevData[lang].title;
+            document.getElementById('prev-link').href = 'project.html?project=' + prevSlug;
+            document.getElementById('project-nav-prev').style.display = 'block';
+          })
+          .catch(() => {});
+      }
+
+      if (nextSlug) {
+        fetch('projects/' + nextSlug + '/data.json')
+          .then(r => r.json())
+          .then(nextData => {
+            document.getElementById('next-title').textContent = nextData[lang].title;
+            document.getElementById('next-link').href = 'project.html?project=' + nextSlug;
+            document.getElementById('project-nav-next').style.display = 'block';
+          })
+          .catch(() => {});
+      }
+
+      // Show content
+      document.getElementById('project-content').style.display = 'block';
+
+      // Update translated static elements
+      applyLang(lang);
+    }
+
+    // ── Language toggle ──
+    function toggleLang() {
+      currentLang = currentLang === 'en' ? 'ar' : 'en';
+      localStorage.setItem('lang', currentLang);
+      const html = document.documentElement;
+      const btn  = document.getElementById('lang-toggle');
+      html.lang = currentLang;
+      btn.textContent = currentLang === 'en' ? 'AR' : 'EN';
+
+      if (projectData) {
+        // Re-render dynamic content
+        renderProject(projectData, currentLang);
+      }
+
+      applyLang(currentLang);
+    }
+
+    function applyLang(lang) {
+      document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+        const content = el.getAttribute('data-' + lang);
+        if (content.includes('<')) el.innerHTML = content;
+        else el.textContent = content;
+      });
+    }
+
+    // ── Lightbox ──
+    function openLightbox(index) {
+      lightboxIndex = index;
+      document.getElementById('lightbox-img').src = lightboxImages[lightboxIndex];
+      document.getElementById('lightbox').classList.add('open');
+      updateLightboxCounter();
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    function updateLightboxCounter() {
+      document.getElementById('lightbox-counter').textContent =
+        (lightboxIndex + 1) + ' / ' + lightboxImages.length;
+    }
+
+    function lightboxNav(dir) {
+      if (lightboxNavLocked) return;
+      lightboxNavLocked = true;
+      const img = document.getElementById('lightbox-img');
+      img.style.opacity = '0';
+      img.style.transition = 'opacity 0.18s ease';
+      lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+      img.src = lightboxImages[lightboxIndex];
+      const show = () => {
+        img.style.opacity = '1';
+        setTimeout(() => { lightboxNavLocked = false; }, 150);
+      };
+      img.addEventListener('load', show, { once: true });
+      setTimeout(() => { if (img.style.opacity === '0') show(); }, 400);
+      updateLightboxCounter();
+    }
+
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') lightboxNav(1);
+      if (e.key === 'ArrowLeft')  lightboxNav(-1);
+    });
+
+    // Touch swipe for lightbox
+    let touchStartX = 0, touchStartY = 0;
+    const lb = document.getElementById('lightbox');
+    lb.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    lb.addEventListener('touchend', e => {
+      const diffX = touchStartX - e.changedTouches[0].clientX;
+      const diffY = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(diffX) > 48 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
+        lightboxNav(diffX > 0 ? 1 : -1);
+      }
+    }, { passive: true });
+
+    // ── Mobile menu ──
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>
