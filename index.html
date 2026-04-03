@@ -65,9 +65,10 @@
     }
     .nav-left strong {
       display: block;
-      font-weight: 500;
-      color: rgba(255,255,255,0.72);
-      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.88);
+      font-size: 13px;
+      letter-spacing: 0.01em;
     }
     .nav-right {
       display: flex;
@@ -101,7 +102,7 @@
     }
     .hero-photo img {
       height: 100%;
-      width: 65%;
+      width: 78%;
       object-fit: cover;
       object-position: left center;
       display: block;
@@ -114,9 +115,9 @@
       background: linear-gradient(
         to right,
         #0d0d0d 0%,
-        #0d0d0d 26%,
-        rgba(13,13,13,0.72) 52%,
-        rgba(13,13,13,0.1) 100%
+        #0d0d0d 18%,
+        rgba(13,13,13,0.80) 42%,
+        rgba(13,13,13,0.08) 100%
       );
     }
     .hero-photo::before {
@@ -168,7 +169,7 @@
       to { stroke-dashoffset: 0; }
     }
     .hero-bio {
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.58);
       font-size: 12px;
       font-weight: 300;
       line-height: 1.8;
@@ -536,19 +537,25 @@
       position: fixed;
       top: 50%;
       transform: translateY(-50%);
-      color: rgba(255,255,255,0.4);
-      font-size: 36px;
-      font-weight: 100;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
       cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0 20px;
-      transition: color 0.2s;
-      line-height: 1;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
     }
-    .lightbox-prev { left: 12px; }
-    .lightbox-next { right: 12px; }
-    .lightbox-prev:hover, .lightbox-next:hover { color: #fff; }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    .lightbox-prev:hover, .lightbox-next:hover {
+      background: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.25);
+      color: #fff;
+    }
     .lightbox-counter {
       position: fixed;
       bottom: 28px;
@@ -626,11 +633,11 @@
       margin-top: 44px;
     }
     .contact-links a {
-      color: rgba(255,255,255,0.38);
+      color: rgba(255,255,255,0.45);
       text-decoration: none;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 300;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
       transition: color 0.2s;
     }
     .contact-links a:hover { color: rgba(255,255,255,0.9); }
@@ -700,15 +707,14 @@
 
       /* Contact */
       .contact-links { flex-direction: column; gap: 20px; }
-      .contact-links a { font-size: 14px; }
 
       /* Library modal */
       .library-grid { grid-template-columns: repeat(2, 1fr); }
       #library-modal { padding: 60px 16px 80px; }
 
       /* Lightbox arrows */
-      .lightbox-prev { left: 4px; padding: 0 10px; }
-      .lightbox-next { right: 4px; padding: 0 10px; }
+      .lightbox-prev { left: 10px; }
+      .lightbox-next { right: 10px; }
     }
     /* ── LANGUAGE TOGGLE ── */
     .lang-toggle {
@@ -776,13 +782,21 @@
     }
 
     /* ── SCROLL REVEAL ── */
+    /* Base reveal — fade only (headings, quotes) */
     .reveal {
       opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: opacity 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    .reveal.visible { opacity: 1; transform: none; }
+    .reveal.visible { opacity: 1; }
+
+    /* Cards and grid items slide up */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal-up.visible { opacity: 1; transform: none; }
 
     /* ── CONTACT LINKS ANIMATED UNDERLINE ── */
     .contact-links a { position: relative; }
@@ -880,8 +894,8 @@
       <div class="hero-left">
         <div class="hero-signature-wrap">
           <svg class="hero-signature-svg" width="269" height="157" viewBox="0 0 269 157" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="sig-path-1" d="M172.005 133.551L170.368 138.189C170.02 139.176 168.727 139.029 168.698 137.983C168.3 123.969 172.628 91.3045 192.005 52.5507C213.605 9.35068 220.339 0.217346 221.005 1.05068C201.672 46.884 161.805 137.251 157.005 132.051C151.005 125.551 155.505 95.0507 162.505 78.5507C168.105 65.3507 142.505 124.384 129.005 155.051M121.505 130.051C128.839 105.217 146.505 50.7507 158.505 31.5507C173.505 7.55066 121.005 124.551 116.505 124.051C112.905 123.651 119.005 88.0507 117.505 94.0507C116.005 95.5507 105.205 130.851 102.005 132.051C98.8053 133.251 107.505 84.5507 105.005 94.5507C104.761 95.5273 89.9053 138.451 83.5053 136.051C77.1053 133.651 93.5053 94.5507 92.0053 97.0507C86.5334 106.17 70.3053 125.251 51.5053 130.051C32.7053 134.851 0.00534056 141.051 1.00532 141.051L267.505 70.5507" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            <path id="sig-path-2" d="M265.505 62.5507C265.505 63.6552 264.61 64.5507 263.505 64.5507C262.401 64.5507 261.156 63.5985 261.505 62.5507C262.005 61.0507 262.901 59.5507 264.005 59.5507C265.11 59.5507 265.505 61.4461 265.505 62.5507Z" stroke="white" stroke-width="2" fill="none"/>
+            <path id="sig-path-1" d="M172.005 133.551L170.368 138.189C170.02 139.176 168.727 139.029 168.698 137.983C168.3 123.969 172.628 91.3045 192.005 52.5507C213.605 9.35068 220.339 0.217346 221.005 1.05068C201.672 46.884 161.805 137.251 157.005 132.051C151.005 125.551 155.505 95.0507 162.505 78.5507C168.105 65.3507 142.505 124.384 129.005 155.051M121.505 130.051C128.839 105.217 146.505 50.7507 158.505 31.5507C173.505 7.55066 121.005 124.551 116.505 124.051C112.905 123.651 119.005 88.0507 117.505 94.0507C116.005 95.5507 105.205 130.851 102.005 132.051C98.8053 133.251 107.505 84.5507 105.005 94.5507C104.761 95.5273 89.9053 138.451 83.5053 136.051C77.1053 133.651 93.5053 94.5507 92.0053 97.0507C86.5334 106.17 70.3053 125.251 51.5053 130.051C32.7053 134.851 0.00534056 141.051 1.00532 141.051L267.505 70.5507" stroke="#e8dfd0" stroke-width="2" stroke-linecap="round"/>
+            <path id="sig-path-2" d="M265.505 62.5507C265.505 63.6552 264.61 64.5507 263.505 64.5507C262.401 64.5507 261.156 63.5985 261.505 62.5507C262.005 61.0507 262.901 59.5507 264.005 59.5507C265.11 59.5507 265.505 61.4461 265.505 62.5507Z" stroke="#e8dfd0" stroke-width="2" fill="none"/>
           </svg>
         </div>
         <p class="hero-bio"
@@ -1028,9 +1042,13 @@
   <!-- LIGHTBOX -->
   <div id="lightbox">
     <button class="lightbox-close" onclick="closeLightbox()">&#215;</button>
-    <button class="lightbox-prev" onclick="lightboxNav(-1)">&#8249;</button>
+    <button class="lightbox-prev" onclick="lightboxNav(-1)" aria-label="Previous">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
     <img id="lightbox-img" src="" alt="">
-    <button class="lightbox-next" onclick="lightboxNav(1)">&#8250;</button>
+    <button class="lightbox-next" onclick="lightboxNav(1)" aria-label="Next">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
     <div class="lightbox-counter" id="lightbox-counter"></div>
   </div>
 
@@ -1265,10 +1283,13 @@
     }, { passive: true });
 
     // ── Scroll reveals ──
-    const revealTargets = document.querySelectorAll(
-      '.section-heading, .works-text, .works-quote, .project-card, .works-img-wrap, .photo-cell, .photo-cell-explore, .contact-links a'
-    );
-    revealTargets.forEach(el => el.classList.add('reveal'));
+    // Headings & text: fade in place (no movement)
+    document.querySelectorAll('.section-heading, .works-text, .works-quote, .contact-links a')
+      .forEach(el => el.classList.add('reveal'));
+
+    // Cards & grid items: slide up
+    document.querySelectorAll('.project-card, .works-img-wrap, .photo-cell, .photo-cell-explore')
+      .forEach(el => el.classList.add('reveal-up'));
 
     // Stagger grid items within their parent
     document.querySelectorAll('.project-card, .works-img-wrap, .photo-cell').forEach(el => {
@@ -1284,7 +1305,7 @@
         }
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
-    revealTargets.forEach(el => revealObserver.observe(el));
+    document.querySelectorAll('.reveal, .reveal-up').forEach(el => revealObserver.observe(el));
 
     // ── Image loading fade-in ──
     document.querySelectorAll('img[loading="lazy"]').forEach(img => {
