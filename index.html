@@ -681,32 +681,11 @@
     #contact .section-heading { color: #fff; } /* already white globally */
 
     @keyframes contactGlow {
-      0%, 100% {
-        -webkit-text-stroke: 1.5px rgba(168,85,247,0.9);
-        filter:
-          drop-shadow(0 0 4px rgba(168,85,247,0.7))
-          drop-shadow(0 0 12px rgba(168,85,247,0.4))
-          drop-shadow(0 0 24px rgba(168,85,247,0.2));
-      }
-      40% {
-        -webkit-text-stroke: 1.5px rgba(236,72,153,0.9);
-        filter:
-          drop-shadow(0 0 4px rgba(236,72,153,0.7))
-          drop-shadow(0 0 12px rgba(236,72,153,0.4))
-          drop-shadow(0 0 24px rgba(168,85,247,0.2));
-      }
-      70% {
-        -webkit-text-stroke: 1.5px rgba(99,102,241,0.9);
-        filter:
-          drop-shadow(0 0 4px rgba(99,102,241,0.7))
-          drop-shadow(0 0 12px rgba(99,102,241,0.4))
-          drop-shadow(0 0 24px rgba(236,72,153,0.2));
-      }
+      0%, 100% { text-shadow: 0 0 40px rgba(255,252,245,0), 0 0 80px rgba(255,252,245,0); }
+      50%       { text-shadow: 0 0 40px rgba(255,252,245,0.12), 0 0 100px rgba(255,252,245,0.07); }
     }
     #contact .section-heading.glow-active {
-      color: transparent;
-      -webkit-text-fill-color: transparent;
-      animation: contactGlow 4s ease-in-out infinite;
+      animation: contactGlow 3.6s ease-in-out infinite;
     }
     .contact-links {
       display: flex;
