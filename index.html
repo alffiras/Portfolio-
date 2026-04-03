@@ -679,6 +679,14 @@
       padding: 108px 0 88px;
     }
     #contact .section-heading { color: #fff; } /* already white globally */
+
+    @keyframes contactGlow {
+      0%, 100% { text-shadow: 0 0 40px rgba(255,252,245,0), 0 0 80px rgba(255,252,245,0); }
+      50%       { text-shadow: 0 0 40px rgba(255,252,245,0.12), 0 0 100px rgba(255,252,245,0.07); }
+    }
+    #contact .section-heading.glow-active {
+      animation: contactGlow 3.6s ease-in-out infinite;
+    }
     .contact-links {
       display: flex;
       gap: 36px;
@@ -1442,6 +1450,20 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
     document.querySelectorAll('.reveal, .reveal-up').forEach(el => revealObserver.observe(el));
+
+    // ── Contact heading glow — triggers once when section scrolls into view ──
+    const contactHeading = document.querySelector('#contact .section-heading');
+    if (contactHeading) {
+      const glowObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            contactHeading.classList.add('glow-active');
+            glowObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      glowObserver.observe(document.getElementById('contact'));
+    }
 
     // ── Image loading fade-in ──
     document.querySelectorAll('img[loading="lazy"]').forEach(img => {
