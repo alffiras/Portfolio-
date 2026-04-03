@@ -681,11 +681,13 @@
     #contact .section-heading { color: #fff; } /* already white globally */
 
     @keyframes contactGlow {
-      0%, 100% { text-shadow: 0 0 40px rgba(255,252,245,0), 0 0 80px rgba(255,252,245,0); }
-      50%       { text-shadow: 0 0 40px rgba(255,252,245,0.12), 0 0 100px rgba(255,252,245,0.07); }
+      0%   { text-shadow: 0 0 30px rgba(168,85,247,0),   0 0 60px rgba(236,72,153,0),   0 0 100px rgba(99,102,241,0); }
+      33%  { text-shadow: 0 0 35px rgba(168,85,247,0.35), 0 0 70px rgba(236,72,153,0.15), 0 0 120px rgba(99,102,241,0.1); }
+      66%  { text-shadow: 0 0 30px rgba(99,102,241,0.2),  0 0 65px rgba(168,85,247,0.3),  0 0 110px rgba(236,72,153,0.12); }
+      100% { text-shadow: 0 0 30px rgba(168,85,247,0),   0 0 60px rgba(236,72,153,0),   0 0 100px rgba(99,102,241,0); }
     }
     #contact .section-heading.glow-active {
-      animation: contactGlow 3.6s ease-in-out infinite;
+      animation: contactGlow 4s ease-in-out infinite;
     }
     .contact-links {
       display: flex;
