@@ -1,8 +1,14 @@
-const CACHE = 'img-cache-v1';
+const CACHE = 'img-cache-v2';
 const IMG_EXTS = /\.(webp|jpg|jpeg|png|gif|svg)(\?.*)?$/i;
 
 self.addEventListener('install', e => { self.skipWaiting(); });
-self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => clients.claim())
+  );
+});
 
 self.addEventListener('fetch', e => {
   if (!IMG_EXTS.test(e.request.url)) return;
