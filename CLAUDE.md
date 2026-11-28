@@ -62,6 +62,10 @@ Google Fonts: **Albert Sans** for English, **IBM Plex Sans Arabic** for Arabic (
 
 ## 4. Adding a project: two stages
 
+### Project name (both stages)
+- The project's display name always comes from its folder name, without the word "project" (e.g. "Civic Center project" → "Civic Center").
+- For the Arabic name, translate that name and show it to Firas in the preview.
+
 ### Stage 1 – Coming soon (when Firas says "add the project <name>")
 - Find the project's working folder by name in `C:\Users\Firas\Desktop` or `C:\Users\Firas\Documents\Projects`. Never edit, move or delete anything there.
 - The card image must be Firas's own white line sketch on black, like the other project cards. Look for it in the project folder first. If it's not there, ask Firas for it and stop: don't do anything else for this project until Firas sends it. Never draw or generate it yourself.
