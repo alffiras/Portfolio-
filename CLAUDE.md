@@ -17,7 +17,6 @@ A static site with no build step and no framework: plain HTML, inline CSS and in
 - `serve.mjs`: local dev server.
 - `sw.js`: service worker that caches images.
 - `Desktop.png`, `blur while hover.png`: reference screenshots, not used by the site.
-- `.claude/commands/`: old `test` / `merge` / `cancel` commands (they use a `test-changes` branch). Section 3 overrides them.
 
 ### index.html sections
 - **Nav**: fixed bar (gets a blurred dark background after scrolling 50px), links to each section, the AR/EN button, and a hamburger menu on mobile.
@@ -58,7 +57,8 @@ Google Fonts: **Albert Sans** for English, **IBM Plex Sans Arabic** for Arabic (
 ## 3. Preview before publishing (always)
 - Never push changes straight to `main`.
 - Work on a branch, push it, and give Firas the Vercel preview link.
-- Merge into `main` only when Firas says "publish" or "انشر".
+- Merge into `main` only when Firas says "publish".
+- If Firas says "cancel", delete the branch and don't publish anything.
 
 ## 4. Adding a project: two stages
 
@@ -79,6 +79,7 @@ Google Fonts: **Albert Sans** for English, **IBM Plex Sans Arabic** for Arabic (
 - Always work from full-size originals. Export WebP q88 at 800w and 1200w plus the largest real size. Never upscale.
 - If an original is too small, tell Firas instead of exporting it.
 - If an image keeps its file name but changes, update the `sw.js` cache version.
+- Project card sketches follow the existing naming and sizes: `projects/<Name> hero.webp`, `projects/<Name> hero-600w.webp`, `projects/<Name> hero-1200w.webp`.
 
 ## 6. Design rules (from the old file)
 - Animate only `transform` and `opacity`. Never use `transition-all`.
