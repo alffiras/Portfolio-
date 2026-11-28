@@ -1,0 +1,127 @@
+{
+  "slug": "fai-al-malqa",
+  "year": "2026",
+  "cover": "images/aerial.webp",
+  "images": [
+    "images/plaza-canopy.webp",
+    "images/playground.webp",
+    "images/undercroft.webp",
+    "images/lobby.webp",
+    "images/lobby-gallery.webp",
+    "images/perspective-section.webp",
+    "images/site-plan.webp",
+    "images/section-iso.webp",
+    "images/sketch-section.webp",
+    "images/sketch-light-wall.webp",
+    "images/sketch-solar-panel.webp",
+    "images/model-1.webp",
+    "images/model-2.webp",
+    "images/model-exploded.webp",
+    "images/model-3.webp"
+  ],
+  "gallerySections": [
+    {
+      "images": [
+        "images/plaza-canopy.webp",
+        "images/playground.webp",
+        "images/undercroft.webp",
+        "images/lobby.webp",
+        "images/lobby-gallery.webp"
+      ]
+    },
+    {
+      "labelEn": "Drawings",
+      "labelAr": "الرسومات",
+      "images": [
+        "images/perspective-section.webp",
+        "images/site-plan.webp",
+        "images/section-iso.webp"
+      ]
+    },
+    {
+      "labelEn": "Sketches",
+      "labelAr": "الاسكتشات",
+      "images": [
+        "images/sketch-section.webp",
+        "images/sketch-light-wall.webp",
+        "images/sketch-solar-panel.webp"
+      ]
+    },
+    {
+      "labelEn": "3D Model",
+      "labelAr": "النموذج ثلاثي الأبعاد",
+      "images": [
+        "images/model-1.webp",
+        "images/model-2.webp",
+        "images/model-exploded.webp",
+        "images/model-3.webp"
+      ]
+    }
+  ],
+  "en": {
+    "title": "Fai Al-Malqa",
+    "category": "Architecture Studio",
+    "course": "ARCH 301",
+    "location": "Al-Malqa, Riyadh",
+    "region": "Najd",
+    "area": "7400m²",
+    "description": "A community civic centre designed for Al-Malqa's residential context. Rather than erecting an imposing barrier, the building presents itself as an inviting canopy that honours people, nature and urban continuity. A forest of slender concrete pilotis lifts the social zone, with the lobby, library and workshops, freeing the ground into a shaded public plaza that extends from the adjacent park. The high-volume sports facilities sink into a continuous green hill, using the earth for thermal insulation. Dynamic solar skins and accessible landscape topographies make it a climate-responsive civic sanctuary at a human scale.",
+    "moduleSectionTitle": "Climate Strategies",
+    "moduleSectionDesc": "Four moves that let the building shade, cool and power itself under Riyadh's harsh sun.",
+    "modules": [
+      {
+        "number": "01",
+        "title": "Elevated Massing",
+        "description": "A massive volume suspended above a single ground level. The void beneath shades the plaza, allows cross-ventilation and insulates the building from ground heat gain."
+      },
+      {
+        "number": "02",
+        "title": "Earth Berming",
+        "description": "The swimming pools and sports halls are absorbed into a green hill, which regulates and stabilises their temperature."
+      },
+      {
+        "number": "03",
+        "title": "Double-Skin Façade",
+        "description": "A kinetic outer screen of solar panels tilts with the sun's altitude, stopping direct sun before it reaches the glass while supplying the centre with clean energy. The buffer zone behind it vents heat by stack effect."
+      },
+      {
+        "number": "04",
+        "title": "Light Wells",
+        "description": "Vertical openings from the roof to the ground level bring natural daylight deep into the building and into the spaces beneath the elevated volume."
+      }
+    ]
+  },
+  "ar": {
+    "title": "فيء الملقا",
+    "category": "استوديو العمارة",
+    "course": "عمر ٣٠١",
+    "location": "الملقا، الرياض",
+    "region": "نجد",
+    "area": "٧٤٠٠م²",
+    "description": "مركز مدني مجتمعي صُمّم ليتناغم مع النسيج السكني لحيّ الملقا. بدلاً من أن يقف حاجزاً مهيباً، يقدّم المبنى نفسه مظلّةً مرحِّبة تحترم الإنسان والطبيعة واستمرارية المدينة. ترفع غابة من الأعمدة الخرسانية النحيلة المنطقة الاجتماعية، من البهو والمكتبة إلى الورش، لتحرّر الأرض ساحةً عامة مظلّلة تمتدّ من الحديقة المجاورة. أمّا المرافق الرياضية ذات الارتفاعات الكبيرة فتنغرس في تلّ أخضر متّصل، مستفيدةً من التربة في العزل الحراري. وبالجمع بين الواجهات الشمسية المتحرّكة والتضاريس الطبيعية المتاحة للجميع، يصبح المبنى ملاذاً مدنياً متجاوباً مع المناخ بمقياس إنساني.",
+    "moduleSectionTitle": "الاستراتيجيات المناخية",
+    "moduleSectionDesc": "أربع خطوات تتيح للمبنى أن يظلّل نفسه ويبرّدها ويولّد طاقته تحت شمس الرياض القاسية.",
+    "modules": [
+      {
+        "number": "٠١",
+        "title": "الكتلة المرتفعة",
+        "description": "كتلة ضخمة معلّقة فوق طابق أرضي واحد. يظلّل الفراغ أسفلها الساحة، ويسمح بالتهوية العرضية، ويعزل المبنى عن حرارة الأرض."
+      },
+      {
+        "number": "٠٢",
+        "title": "الاحتماء بالتربة",
+        "description": "تنغرس المسابح والصالات الرياضية في تلّ أخضر ينظّم درجة حرارتها ويحافظ على استقرارها."
+      },
+      {
+        "number": "٠٣",
+        "title": "الواجهة المزدوجة",
+        "description": "ستارة خارجية متحرّكة من الألواح الشمسية تميل مع ارتفاع الشمس، فتحجب أشعتها المباشرة قبل وصولها إلى الزجاج وتزوّد المركز بطاقة نظيفة. وتطرد المنطقة العازلة خلفها الحرارة بتأثير المدخنة."
+      },
+      {
+        "number": "٠٤",
+        "title": "آبار الضوء",
+        "description": "فتحات رأسية تمتدّ من السقف إلى الطابق الأرضي، تُدخل ضوء النهار الطبيعي إلى عمق المبنى وإلى الفراغات أسفل الكتلة المرتفعة."
+      }
+    ]
+  }
+}
